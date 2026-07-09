@@ -1,0 +1,907 @@
+<title>The Speaking Room — 21-Day Articulation & Selling Trainer</title>
+<style>
+  :root{
+    --bg:#F7F6F2; --surface:#FFFFFF; --surface2:#F1EFE9; --ink:#1F1D1A; --muted:#6B675F;
+    --line:#E3E0D8; --signal:#B23A22; --signal-ink:#FFFFFF; --signal-soft:rgba(178,58,34,.08);
+    --brass:#8A6A21; --brass-soft:rgba(138,106,33,.10); --good:#2E7B4F; --good-soft:rgba(46,123,79,.10);
+    --shadow:0 1px 2px rgba(31,29,26,.05),0 8px 24px rgba(31,29,26,.06);
+    --display:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --ui:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#14161A; --surface:#1C1F25; --surface2:#22262D; --ink:#ECEAE4; --muted:#9A968D;
+      --line:#2C3038; --signal:#F0603C; --signal-ink:#1A0D08; --signal-soft:rgba(240,96,60,.12);
+      --brass:#D9A93F; --brass-soft:rgba(217,169,63,.12); --good:#5CB585; --good-soft:rgba(92,181,133,.12);
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14161A; --surface:#1C1F25; --surface2:#22262D; --ink:#ECEAE4; --muted:#9A968D;
+    --line:#2C3038; --signal:#F0603C; --signal-ink:#1A0D08; --signal-soft:rgba(240,96,60,.12);
+    --brass:#D9A93F; --brass-soft:rgba(217,169,63,.12); --good:#5CB585; --good-soft:rgba(92,181,133,.12);
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
+  }
+  :root[data-theme="light"]{
+    --bg:#F7F6F2; --surface:#FFFFFF; --surface2:#F1EFE9; --ink:#1F1D1A; --muted:#6B675F;
+    --line:#E3E0D8; --signal:#B23A22; --signal-ink:#FFFFFF; --signal-soft:rgba(178,58,34,.08);
+    --brass:#8A6A21; --brass-soft:rgba(138,106,33,.10); --good:#2E7B4F; --good-soft:rgba(46,123,79,.10);
+    --shadow:0 1px 2px rgba(31,29,26,.05),0 8px 24px rgba(31,29,26,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;color:inherit;cursor:pointer}
+  h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.15;margin:0;text-wrap:balance}
+  p{margin:0 0 .7em}
+  a{color:var(--signal)}
+  .eyebrow{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 96px}
+
+  /* Top bar */
+  .topbar{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--line)}
+  .topbar-in{max-width:760px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:12px}
+  .lamp{width:10px;height:10px;border-radius:50%;background:var(--signal);box-shadow:0 0 8px var(--signal);flex:none}
+  .wordmark{font-family:var(--display);font-size:1.12rem;font-weight:700;letter-spacing:.01em}
+  .topbar .spacer{flex:1}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface);white-space:nowrap}
+  .chip b{color:var(--brass);font-weight:700}
+
+  /* Tabs */
+  .tabs{position:sticky;top:49px;z-index:39;background:var(--bg);padding:10px 0 12px;border-bottom:1px solid var(--line)}
+  .tabs-in{max-width:760px;margin:0 auto;padding:0 18px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+  .tabs-in::-webkit-scrollbar{display:none}
+  .tab{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:.85rem;font-weight:600;color:var(--muted);white-space:nowrap}
+  .tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+  .tab:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--signal);outline-offset:2px}
+
+  /* Cards */
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}
+  .stack{display:flex;flex-direction:column;gap:14px}
+  section.view{padding-top:20px}
+  .hidden{display:none !important}
+
+  /* Hero / today */
+  .hero{padding:26px 0 6px}
+  .hero h1{font-size:clamp(1.7rem,5.5vw,2.3rem)}
+  .hero .sub{color:var(--muted);max-width:56ch;margin-top:8px}
+  .meter{display:flex;gap:3px;margin:16px 0 4px}
+  .meter i{flex:1;height:6px;border-radius:3px;background:var(--surface2);border:1px solid var(--line)}
+  .meter i.done{background:var(--good);border-color:var(--good)}
+  .meter i.today{background:var(--signal);border-color:var(--signal)}
+  .meter-caption{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+
+  .daycard .dayhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .daynum{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;color:var(--signal);text-transform:uppercase;font-weight:700}
+  .daycard h2{font-size:1.45rem}
+  .daytag{font-size:.8rem;color:var(--muted)}
+  .block{border-top:1px solid var(--line);margin-top:16px;padding-top:14px}
+  .block .kind{display:inline-block;font-family:var(--mono);font-size:.64rem;letter-spacing:.13em;text-transform:uppercase;padding:3px 8px;border-radius:5px;margin-bottom:8px}
+  .kind.warmup{background:var(--brass-soft);color:var(--brass)}
+  .kind.drill{background:var(--signal-soft);color:var(--signal)}
+  .kind.practice{background:var(--good-soft);color:var(--good)}
+  .kind.mission{background:var(--surface2);color:var(--muted);border:1px solid var(--line)}
+  .block h3{font-size:1.02rem;font-family:var(--ui);font-weight:700;margin-bottom:6px}
+  .block ul,.block ol{margin:.2em 0 .6em;padding-left:1.2em}
+  .block li{margin-bottom:.35em}
+  .block li::marker{color:var(--signal)}
+  .block .why{font-size:.86rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px;margin-top:8px}
+  .toollink{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;font-weight:600;color:var(--signal);background:var(--signal-soft);border:1px solid transparent;border-radius:8px;padding:6px 10px;text-decoration:none;margin-top:2px}
+
+  .btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 16px;font-size:.92rem;font-weight:600}
+  .btn:hover{border-color:var(--muted)}
+  .btn.primary{background:var(--signal);border-color:var(--signal);color:var(--signal-ink)}
+  .btn.primary:hover{filter:brightness(1.06)}
+  .btn.done{background:var(--good);border-color:var(--good);color:#fff}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:center}
+  .navmini{margin-left:auto;display:flex;gap:6px}
+  .navmini .btn{padding:10px 12px}
+
+  /* Plan list */
+  .weekhead{display:flex;align-items:baseline;gap:10px;margin:26px 0 10px}
+  .weekhead h2{font-size:1.2rem}
+  .weekhead .eyebrow{color:var(--signal)}
+  .dayrow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 15px;margin-bottom:8px}
+  .dayrow:hover{border-color:var(--muted)}
+  .dayrow .dn{font-family:var(--mono);font-size:.7rem;color:var(--muted);width:44px;flex:none;letter-spacing:.06em}
+  .dayrow .dt{font-weight:600;font-size:.94rem;flex:1}
+  .dayrow .dtag{font-size:.76rem;color:var(--muted);display:block;font-weight:400}
+  .tick{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);flex:none;display:grid;place-items:center;font-size:.7rem;color:#fff}
+  .dayrow.complete .tick{background:var(--good);border-color:var(--good)}
+  .dayrow.current{border-color:var(--signal)}
+  .dayrow.current .dn{color:var(--signal);font-weight:700}
+
+  /* Drills / tools */
+  .toolgrid{display:grid;grid-template-columns:1fr;gap:14px}
+  .tool h3{font-size:1.15rem;margin-bottom:2px}
+  .tool .desc{color:var(--muted);font-size:.9rem;margin-bottom:12px}
+  .prompt-box{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:16px;font-family:var(--display);font-size:1.15rem;line-height:1.4;min-height:64px;display:flex;align-items:center}
+  .timer-face{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:3rem;font-weight:600;text-align:center;letter-spacing:.04em;margin:10px 0 2px}
+  .timer-face.warn{color:var(--signal)}
+  .timer-bar{height:6px;border-radius:3px;background:var(--surface2);border:1px solid var(--line);overflow:hidden;margin-bottom:12px}
+  .timer-bar i{display:block;height:100%;background:var(--signal);width:0%;transition:width .5s linear}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .seg button{border:0;background:var(--surface);padding:7px 13px;font-size:.82rem;font-weight:600;color:var(--muted)}
+  .seg button.on{background:var(--ink);color:var(--bg)}
+  .twister{border-top:1px solid var(--line);padding:12px 2px}
+  .twister:first-of-type{border-top:0}
+  .twister .tt{font-family:var(--display);font-size:1.06rem}
+  .twister .tm{font-size:.76rem;color:var(--muted);font-family:var(--mono);letter-spacing:.05em}
+  .lvl{display:inline-block;font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px}
+  .lvl.easy{background:var(--good-soft);color:var(--good)}
+  .lvl.medium{background:var(--brass-soft);color:var(--brass)}
+  .lvl.hard{background:var(--signal-soft);color:var(--signal)}
+  .tapper{width:100%;padding:34px 20px;font-size:1.05rem;font-weight:700;border-radius:14px;border:2px dashed var(--line);background:var(--surface2)}
+  .tapper:active{background:var(--signal-soft);border-color:var(--signal)}
+  .bignum{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:2.6rem;font-weight:700;text-align:center}
+  .breath-stage{display:grid;place-items:center;padding:26px 0 10px}
+  .breath-ring{width:120px;height:120px;border-radius:50%;background:var(--signal-soft);border:2px solid var(--signal);display:grid;place-items:center;font-family:var(--mono);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--signal);transition:transform 1s ease-in-out}
+  .emph-sentence{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+  .emph-sentence button{font-family:var(--display);font-size:1.15rem;border:1px solid var(--line);background:var(--surface2);border-radius:8px;padding:6px 10px}
+  .emph-sentence button.on{background:var(--signal);border-color:var(--signal);color:var(--signal-ink)}
+  .emph-meaning{background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:.92rem;min-height:44px}
+  .passage{font-family:var(--display);font-size:1.05rem;line-height:1.7;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;max-width:100%}
+
+  /* Toolkit */
+  .fw{border-left:3px solid var(--signal);padding-left:0}
+  .fw summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;padding:16px 20px}
+  .fw summary::-webkit-details-marker{display:none}
+  .fw summary h3{font-size:1.05rem;font-family:var(--ui);font-weight:700;flex:1}
+  .fw summary .eyebrow{flex:none}
+  .fw summary::after{content:"+";font-family:var(--mono);color:var(--muted);font-size:1.1rem}
+  .fw[open] summary::after{content:"–"}
+  .fw .fw-body{padding:0 20px 18px;border-top:1px dashed var(--line);padding-top:14px;margin:0 0 0}
+  .fw table{width:100%;border-collapse:collapse;font-size:.88rem}
+  .fw th{text-align:left;font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1px solid var(--line)}
+  .fw td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+  .fw td.weak{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--signal);text-decoration-thickness:1px}
+  .fw td.strong{font-weight:600}
+  .tablewrap{overflow-x:auto}
+  .steps{counter-reset:s;list-style:none;padding-left:0;margin:.3em 0 .5em}
+  .steps li{counter-increment:s;display:flex;gap:10px;margin-bottom:.55em}
+  .steps li::before{content:counter(s);font-family:var(--mono);font-size:.7rem;flex:none;width:20px;height:20px;border-radius:50%;background:var(--signal);color:var(--signal-ink);display:grid;place-items:center;margin-top:2px}
+
+  /* Pitch builder */
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:.82rem;font-weight:700;margin-bottom:5px}
+  .field .hint{font-weight:400;color:var(--muted)}
+  .field input,.field textarea{width:100%;border:1px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:9px;padding:10px 12px;font-family:inherit;font-size:.95rem;resize:vertical}
+  .pitch-out{font-family:var(--display);font-size:1.12rem;line-height:1.6;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:18px;min-height:80px;white-space:pre-wrap}
+  .pitch-out .ph{color:var(--muted);font-style:italic}
+
+  /* Onboarding */
+  .ob-overlay{position:fixed;inset:0;z-index:100;background:var(--bg);overflow-y:auto}
+  .ob{max-width:640px;margin:0 auto;padding:40px 20px 80px}
+  .ob .brand{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:26px}
+  .ob h1{font-size:clamp(1.9rem,6vw,2.6rem);text-align:center}
+  .ob .tagline{text-align:center;color:var(--muted);max-width:46ch;margin:12px auto 4px}
+  .ob .cred{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0 30px}
+  .ob-q{margin-top:26px}
+  .ob-q .qt{font-weight:700;margin-bottom:10px}
+  .optgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  @media (max-width:520px){.optgrid{grid-template-columns:1fr}}
+  .opt{border:1.5px solid var(--line);background:var(--surface);border-radius:11px;padding:13px 14px;text-align:left;font-size:.9rem;font-weight:600}
+  .opt small{display:block;font-weight:400;color:var(--muted);margin-top:2px}
+  .opt.on{border-color:var(--signal);background:var(--signal-soft)}
+  .ob-cta{margin-top:34px;text-align:center}
+  .ob-cta .btn{font-size:1.05rem;padding:14px 34px}
+  .ob-note{font-size:.78rem;color:var(--muted);text-align:center;margin-top:12px}
+
+  .focusnote{border:1px solid var(--brass);background:var(--brass-soft);border-radius:12px;padding:14px 16px;font-size:.9rem}
+  .focusnote b{color:var(--brass)}
+
+  footer{margin-top:48px;border-top:1px solid var(--line);padding-top:18px;font-size:.78rem;color:var(--muted)}
+  footer a{color:var(--muted)}
+  .srcs{margin:.4em 0 0;padding-left:1.1em}
+
+  @media (prefers-reduced-motion: reduce){
+    .breath-ring{transition:none}
+    .timer-bar i{transition:none}
+  }
+</style>
+
+<!-- ============ ONBOARDING ============ -->
+<div class="ob-overlay" id="obOverlay" hidden>
+  <div class="ob">
+    <div class="brand"><span class="lamp" aria-hidden="true"></span><span class="wordmark">THE SPEAKING ROOM</span></div>
+    <h1>Stop losing your best ideas between your brain and your mouth.</h1>
+    <p class="tagline">A 21-day training plan for clear speech, thinking on your feet, commanding rooms — and selling yourself without flinching.</p>
+    <div class="cred">
+      <span class="chip">21 DAYS · <b>~15 MIN/DAY</b></span>
+      <span class="chip">DRILLS + FRAMEWORKS + <b>REAL-WORLD REPS</b></span>
+    </div>
+
+    <div class="ob-q">
+      <p class="qt">1 · What should this plan push hardest on?</p>
+      <div class="optgrid" id="obGoal" role="radiogroup" aria-label="Primary goal">
+        <button class="opt" data-v="clarity">Speaking clearly<small>Mumbling, mushy words, talking too fast</small></button>
+        <button class="opt" data-v="rooms">Commanding rooms<small>Meetings, presence, being heard</small></button>
+        <button class="opt" data-v="selling">Selling &amp; self-promotion<small>Pitching, persuading, owning my wins</small></button>
+        <button class="opt" data-v="all">All of it<small>Full program, balanced</small></button>
+      </div>
+    </div>
+
+    <div class="ob-q">
+      <p class="qt">2 · What trips you up most? <span class="hint" style="font-weight:400;color:var(--muted)">(pick up to 3)</span></p>
+      <div class="optgrid" id="obStruggle" aria-label="Struggles">
+        <button class="opt" data-v="fillers">Um, uh, like, you know</button>
+        <button class="opt" data-v="rambling">Rambling — no clear point</button>
+        <button class="opt" data-v="freeze">Freezing when put on the spot</button>
+        <button class="opt" data-v="mumbling">Mumbling / trailing off</button>
+        <button class="opt" data-v="nerves">Nerves, shaky voice</button>
+        <button class="opt" data-v="credit">Underselling myself</button>
+      </div>
+    </div>
+
+    <div class="ob-q">
+      <p class="qt">3 · Where do you most need to win?</p>
+      <div class="optgrid" id="obArena" role="radiogroup" aria-label="Arena">
+        <button class="opt" data-v="meetings">Meetings &amp; group rooms</button>
+        <button class="opt" data-v="pitching">Sales calls &amp; pitches</button>
+        <button class="opt" data-v="networking">Networking &amp; interviews</button>
+        <button class="opt" data-v="everyday">Everyday conversation</button>
+      </div>
+    </div>
+
+    <div class="ob-cta">
+      <button class="btn primary" id="obStart">Build my plan →</button>
+      <p class="ob-note">Your answers and progress are saved on this device only. No account, no tracking.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ APP SHELL ============ -->
+<div class="topbar">
+  <div class="topbar-in">
+    <span class="lamp" aria-hidden="true"></span>
+    <span class="wordmark">THE SPEAKING ROOM</span>
+    <span class="spacer"></span>
+    <span class="chip" id="streakChip" title="Practice streak">🔥<span><b id="streakNum">0</b>-day streak</span></span>
+  </div>
+</div>
+<nav class="tabs" aria-label="Sections">
+  <div class="tabs-in" role="tablist">
+    <button class="tab" role="tab" data-tab="today" aria-selected="true">Today</button>
+    <button class="tab" role="tab" data-tab="plan" aria-selected="false">The Plan</button>
+    <button class="tab" role="tab" data-tab="drills" aria-selected="false">Drill Room</button>
+    <button class="tab" role="tab" data-tab="toolkit" aria-selected="false">Toolkit</button>
+    <button class="tab" role="tab" data-tab="pitch" aria-selected="false">My Pitch</button>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- TODAY -->
+  <section class="view" id="view-today">
+    <div class="hero">
+      <p class="eyebrow" id="todayEyebrow">Session</p>
+      <h1 id="todayGreeting">Ready when you are.</h1>
+      <p class="sub" id="todaySub"></p>
+      <div class="meter" id="meter" aria-label="Program progress"></div>
+      <p class="meter-caption"><span id="doneCount">0</span> of 21 sessions complete</p>
+    </div>
+    <div id="focusNote"></div>
+    <div style="height:14px"></div>
+    <div class="card daycard" id="dayCard"></div>
+  </section>
+
+  <!-- PLAN -->
+  <section class="view hidden" id="view-plan">
+    <div class="hero">
+      <p class="eyebrow">The full program</p>
+      <h1>21 days, three builds.</h1>
+      <p class="sub">Week 1 rebuilds the instrument — breath, mouth, pace. Week 2 rebuilds the thinking — structure, concision, composure on the spot. Week 3 takes it to market — presence, pitching, and promoting yourself. Do them in order; each week stands on the last.</p>
+    </div>
+    <div id="planList"></div>
+  </section>
+
+  <!-- DRILLS -->
+  <section class="view hidden" id="view-drills">
+    <div class="hero">
+      <p class="eyebrow">Drill room</p>
+      <h1>The equipment.</h1>
+      <p class="sub">Standalone tools the daily sessions send you to. All of them work on their own, any time — five spare minutes in here beats zero perfect minutes.</p>
+    </div>
+    <div class="toolgrid">
+
+      <div class="card tool" id="tool-impromptu">
+        <h3>Impromptu Trainer</h3>
+        <p class="desc">Draw a random prompt, hit start, and speak until the clock runs out. Use PREP: Point → Reason → Example → Point. 60–90 seconds is the sweet spot for a meeting-quality answer.</p>
+        <div class="prompt-box" id="promptBox">Press “New prompt” to draw one.</div>
+        <div class="timer-face" id="timerFace">1:00</div>
+        <div class="timer-bar"><i id="timerBarFill"></i></div>
+        <div class="btn-row" style="margin-top:0">
+          <button class="btn" id="newPrompt">🎲 New prompt</button>
+          <div class="seg" role="group" aria-label="Timer length">
+            <button data-sec="60" class="on">60s</button>
+            <button data-sec="90">90s</button>
+            <button data-sec="120">2m</button>
+          </div>
+          <button class="btn primary" id="timerToggle">Start</button>
+        </div>
+      </div>
+
+      <div class="card tool" id="tool-twisters">
+        <h3>Tongue Twister Bank</h3>
+        <p class="desc">Say each one three times: slow and perfect, medium and perfect, then fast. Speed only counts if every consonant survives. Each twister lists the sounds it targets.</p>
+        <div class="btn-row" style="margin:0 0 8px">
+          <div class="seg" role="group" aria-label="Difficulty filter">
+            <button data-lvl="all" class="on">All</button>
+            <button data-lvl="easy">Easy</button>
+            <button data-lvl="medium">Medium</button>
+            <button data-lvl="hard">Hard</button>
+          </div>
+          <button class="btn" id="shuffleTw">🎲 Random</button>
+        </div>
+        <div id="twisterList"></div>
+      </div>
+
+      <div class="card tool" id="tool-filler">
+        <h3>Filler Counter</h3>
+        <p class="desc">Play back a recording of yourself — or have someone listen live — and tap once per “um, uh, like, you know, kind of.” Awareness alone cuts fillers dramatically; the fix is a silent pause where the filler was.</p>
+        <div class="bignum" id="fillerCount">0</div>
+        <button class="tapper" id="fillerTap">TAP FOR EVERY FILLER</button>
+        <div class="btn-row"><button class="btn" id="fillerReset">Reset</button><span class="daytag" id="fillerVerdict"></span></div>
+      </div>
+
+      <div class="card tool" id="tool-breath">
+        <h3>Breathing Pacer</h3>
+        <p class="desc">Diaphragmatic breathing — in through the nose 4 counts, out slow 6 counts. This is the foundation of a steady voice and the fastest way to settle nerves before you walk into a room. Do 6 cycles.</p>
+        <div class="breath-stage"><div class="breath-ring" id="breathRing"><span id="breathLabel">READY</span></div></div>
+        <div class="bignum" style="font-size:1.2rem" id="breathCycles"></div>
+        <div class="btn-row" style="justify-content:center"><button class="btn primary" id="breathToggle">Begin</button></div>
+      </div>
+
+      <div class="card tool" id="tool-emphasis">
+        <h3>The 7-Meanings Drill</h3>
+        <p class="desc">One sentence, seven meanings — it all depends where you put the stress. Tap a word, then say the sentence out loud hitting that word hard. This trains vocal emphasis, the difference between monotone and magnetic.</p>
+        <div class="emph-sentence" id="emphSentence"></div>
+        <div class="emph-meaning" id="emphMeaning">Tap a word above, then say the sentence stressing that word.</div>
+      </div>
+
+      <div class="card tool" id="tool-passages">
+        <h3>Reading Passages</h3>
+        <p class="desc">Two classic public-domain passages used by speech therapists. Use them for over-enunciation reps (exaggerate every consonant), pacing work (~140–160 words per minute, pause at every period), and projection (read to the far wall).</p>
+        <p class="eyebrow" style="margin:14px 0 6px">The Grandfather Passage · ~130 words</p>
+        <div class="passage">You wished to know all about my grandfather. Well, he is nearly ninety-three years old; he dresses himself in an ancient black frock coat, usually minus several buttons; yet he still thinks as swiftly as ever. A long, flowing beard clings to his chin, giving those who observe him a pronounced feeling of the utmost respect. When he speaks, his voice is just a bit cracked and quivers a trifle. Twice each day he plays skillfully and with zest upon our small organ. Except in the winter when the ooze or snow or ice prevents, he slowly takes a short walk in the open air each day. We have often urged him to walk more and smoke less, but he always answers, “Banana oil!” Grandfather likes to be modern in his language.</div>
+        <p class="eyebrow" style="margin:14px 0 6px">The Rainbow Passage (opening) · ~100 words</p>
+        <div class="passage">When the sunlight strikes raindrops in the air, they act as a prism and form a rainbow. The rainbow is a division of white light into many beautiful colors. These take the shape of a long round arch, with its path high above, and its two ends apparently beyond the horizon. There is, according to legend, a boiling pot of gold at one end. People look, but no one ever finds it. When a man looks for something beyond his reach, his friends say he is looking for the pot of gold at the end of the rainbow.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TOOLKIT -->
+  <section class="view hidden" id="view-toolkit">
+    <div class="hero">
+      <p class="eyebrow">Toolkit</p>
+      <h1>Frameworks that hold up under pressure.</h1>
+      <p class="sub">You don't rise to the occasion — you fall to the level of your structure. These are the structures. Skim them now; the daily sessions train each one until it's reflex.</p>
+    </div>
+    <div class="stack" id="toolkitList"></div>
+  </section>
+
+  <!-- PITCH -->
+  <section class="view hidden" id="view-pitch">
+    <div class="hero">
+      <p class="eyebrow">My pitch</p>
+      <h1>Thirty seconds that sell you.</h1>
+      <p class="sub">The formula: who you help + the problem you kill + how + proof + an ask. No job titles, no buzzwords — a person hearing this should think “I know someone who needs you.” Fill it in; it saves automatically on this device.</p>
+    </div>
+    <div class="card">
+      <div class="field"><label for="pWho">Who do you help? <span class="hint">— be narrow. “Owners of small gyms,” not “businesses.”</span></label><input id="pWho" data-k="who" placeholder="e.g. first-time homebuyers in Houston"></div>
+      <div class="field"><label for="pProblem">What painful problem do they have? <span class="hint">— the ache, in their words.</span></label><input id="pProblem" data-k="problem" placeholder="e.g. they get outbid four times and start to believe they'll never own"></div>
+      <div class="field"><label for="pHow">How do you solve it? <span class="hint">— one plain sentence, no jargon.</span></label><input id="pHow" data-k="how" placeholder="e.g. I find off-market listings and coach them through offers that win"></div>
+      <div class="field"><label for="pProof">Proof it works <span class="hint">— a number or a story beats an adjective.</span></label><input id="pProof" data-k="proof" placeholder="e.g. 31 families closed last year, average 3 weeks faster than market"></div>
+      <div class="field"><label for="pAsk">The ask <span class="hint">— what you want the listener to do next.</span></label><input id="pAsk" data-k="ask" placeholder="e.g. if you know someone stuck renting, introduce us"></div>
+    </div>
+    <div style="height:14px"></div>
+    <div class="card">
+      <p class="eyebrow" style="margin-bottom:10px">Your pitch, assembled</p>
+      <div class="pitch-out" id="pitchOut"></div>
+      <div class="btn-row">
+        <button class="btn primary" id="copyPitch">Copy pitch</button>
+        <button class="btn" id="rehearsePitch">Rehearse with timer →</button>
+      </div>
+      <p class="daytag" style="margin-top:12px">Delivery rule: say it out loud ten times before you use it once. It should sound like something you'd say, not something you wrote. Vary the wording each rep — you're memorizing the shape, not the script.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>The Speaking Room</strong> — a 21-day articulation, presence &amp; selling trainer. Built for daily reps of ~15 minutes. Progress is stored only in this browser.</p>
+    <p>Method sources consulted: articulation &amp; enunciation drill practice (<a href="https://www.masterclass.com/articles/11-articulation-exercises-for-actors">MasterClass</a>, <a href="https://www.write-out-loud.com/dictionexercises.html">Write Out Loud</a>, <a href="https://voiceplace.com/enunciation-exercises/">Voiceplace</a>), the PREP impromptu framework (<a href="https://sholakaye.com/prep/">Shola Kaye</a>, <a href="https://winningpresentations.com/impromptu-speaking/">Winning Presentations</a>), executive presence &amp; vocal authority (<a href="https://communispond.com/executive-presence-how-to-command-the-room-with-confidence/">Communispond</a>, <a href="https://corporatespeechsolutions.com/how-to-use-vocal-power-to-command-the-room/">Corporate Speech Solutions</a>), and pitch &amp; storytelling structure (<a href="https://www.salesforce.com/blog/sales/elevator-pitch-examples/">Salesforce</a>, <a href="https://blog.hubspot.com/sales/elevator-pitch-examples">HubSpot</a>, <a href="https://www.kindrahall.com/blog/elevator-pitch">Kindra Hall</a>). This trainer is a practice aid, not medical advice — for a diagnosed speech disorder, see a licensed speech-language pathologist.</p>
+  </footer>
+</div>
+
+<script>
+"use strict";
+/* ---------------- state ---------------- */
+const KEY="speakingroom_v1";
+const S=(()=>{try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}})();
+S.done=S.done||{};          // {dayNum: "YYYY-MM-DD"}
+S.pitch=S.pitch||{};
+S.profile=S.profile||null;
+S.viewDay=S.viewDay||null;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function todayStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+
+/* ---------------- program data ---------------- */
+const T=(k,t,b,tool)=>({k,t,b,tool});
+const DAYS=[
+{w:1,t:"Baseline & Breath",tag:"Know where you're starting. Build the engine under the voice.",blocks:[
+ T("warmup","Diaphragmatic breathing · 2 min","<ul><li>Sit tall, one hand on your chest, one on your belly. Inhale through the nose for 4 counts — only the belly hand should move.</li><li>Exhale slowly through the mouth for 6 counts, like fogging a mirror. Repeat 8–10 cycles.</li></ul><p class='why'>Shallow chest breathing is why voices shake and trail off. Every strong speaker is running on belly breath.</p>","breath"),
+ T("drill","Record your baseline · 3 min","<ul><li>Open your phone's voice recorder. Talk for 90 seconds: who you are, what you do, and why you're good at it. No notes, no restarts.</li><li>Listen back once. Don't judge — just note three things: fillers, pace, and whether your sentences <em>end</em> or fade out.</li><li>Keep this recording. You'll re-record on Day 7, 14, and 21 and hear the difference.</li></ul>"),
+ T("practice","Breath-supported sentences · 3 min","<ul><li>Take a belly breath, then read one sentence of the Grandfather Passage on the exhale — finishing the sentence with air to spare.</li><li>Do 8 sentences. If you run out of air, you're starting with a shallow breath or rushing.</li></ul>","passages"),
+ T("mission","Today, in the wild","<p>Once today, before you speak in any conversation that matters — one slow belly breath first. Nobody will notice. You will.</p>")]},
+{w:1,t:"Wake Up the Instrument",tag:"Your mouth is a muscle group. Today it goes to the gym.",blocks:[
+ T("warmup","Face & jaw release · 2 min","<ul><li><strong>Lip trills:</strong> blow air through loose lips (motorboat) for 15 seconds, ×3. Add a hum to make it a pitch slide.</li><li><strong>Jaw massage:</strong> knuckles on the jaw hinge, small circles, 20 seconds. Then yawn wide 5 times.</li><li><strong>Tongue circuit:</strong> point it far out, up to your nose, down to your chin, then sweep it around your lips both directions ×5.</li></ul><p class='why'>Actors and broadcasters do this before every session. A tense jaw is the #1 cause of mumbling.</p>"),
+ T("drill","Tongue twisters, set one · 5 min","<ul><li>In the Drill Room, take three <em>easy</em> twisters. Say each 3×: slow-and-perfect, medium, fast.</li><li>Rule: a rep only counts if every consonant lands. Speed with mush is a wasted rep.</li></ul>","twisters"),
+ T("practice","The classic warm-up line · 2 min","<ul><li>Say “<em>The lips, the teeth, the tip of the tongue</em>” ten times, crisper each time — feel the L's on the ridge behind your teeth and the T's popping.</li></ul>"),
+ T("mission","Today, in the wild","<p>Do the 60-second face warm-up before one phone call or meeting today. Notice how much easier the first sentence comes out.</p>")]},
+{w:1,t:"Over-Enunciation",tag:"Exaggerate in practice so 'normal' becomes crisp.",blocks:[
+ T("warmup","Lip trills + jaw circles · 1 min","<ul><li>15 seconds of lip trills, 5 slow jaw circles each direction, one big yawn.</li></ul>"),
+ T("drill","Exaggerated reading · 5 min","<ul><li>Read the Grandfather Passage out loud, absurdly over-articulating <em>every</em> consonant — big mouth shapes, popping P's and T's, full word endings. It should feel ridiculous.</li><li>Read it again at normal effort. It will come out noticeably cleaner — that's the calibration effect.</li></ul>","passages"),
+ T("practice","Finish your endings · 4 min","<ul><li>Most mumbling is dropped word-endings: <em>goin'</em>, <em>jus'</em>, <em>tha'</em>. Read 10 sentences hitting every final -t, -d, -k, and -ing.</li><li>Then say this with every ending crisp: “<em>What did you want? I asked about the project we worked on last night.</em>”</li></ul><p class='why'>Listeners rate speakers with complete word-endings as sharper and more credible — endings are where clarity lives.</p>"),
+ T("mission","Today, in the wild","<p>Pick one conversation today and silently focus on finishing every word. That's the whole mission.</p>")]},
+{w:1,t:"Pace & the Full Stop",tag:"Fast talkers sound nervous. Slow talkers sound certain.",blocks:[
+ T("warmup","Breath + trills · 1 min","<ul><li>4 belly breaths (4 in / 6 out), 15 seconds of lip trills.</li></ul>","breath"),
+ T("drill","The 140 drill · 5 min","<ul><li>The Rainbow Passage opening is ~100 words. Time yourself reading it: your target is 40–45 seconds — that's ≈140 words per minute, the credibility zone.</li><li>Under 35 seconds? You're rushing. Read it again and <em>pause a full second at every period</em>. The pause will feel enormous. It isn't — it reads as confidence.</li></ul>","passages"),
+ T("practice","Punctuation is a place to breathe · 4 min","<ul><li>Read any paragraph treating punctuation as physical: comma = half-second, period = full second + breath.</li><li>Then answer out loud, at that pace: “What did you do yesterday?” Rushing your own life story is a habit — break it.</li></ul>"),
+ T("mission","Today, in the wild","<p>In one exchange today, deliberately speak 20% slower than your instinct — especially your first sentence. First sentences set your pace for the whole conversation.</p>")]},
+{w:1,t:"Projection & the Strong Finish",tag:"Trail-off is where authority goes to die.",blocks:[
+ T("warmup","Hum + siren · 2 min","<ul><li>Hum at a comfy pitch 15 seconds, feeling buzz in the lips. Then siren from your lowest note to highest and back, ×3.</li></ul>"),
+ T("drill","Far-wall projection · 4 min","<ul><li>Stand. Pick the farthest wall. Read 6 sentences <em>to that wall</em> — not shouting, but supporting each line with breath so it lands there.</li><li>Count up 1 to 10 getting slightly louder each number, staying relaxed. Then 10 down to 1 getting <em>quieter but not weaker</em> — that control is the skill.</li></ul>"),
+ T("practice","Land the last word · 4 min","<ul><li>Say: “We should move forward with this <strong>plan</strong>.” — with the final word as strong as the first. Now: “I'm confident in these <strong>numbers</strong>.” “That's my <strong>recommendation</strong>.”</li><li>Record one of them. Listen: does the ending hold, or sag? Repeat until it holds.</li></ul><p class='why'>Ending sentences at full strength — and with downward pitch, not an upward question-lilt — is the single fastest authority upgrade in speech.</p>"),
+ T("mission","Today, in the wild","<p>End every statement today like a statement. If you catch an upward lilt (“uptalk?”), restate the line flat and firm.</p>")]},
+{w:1,t:"Vocal Variety",tag:"Monotone is forgettable. Emphasis is meaning.",blocks:[
+ T("warmup","Siren + trills · 1 min","<ul><li>3 pitch sirens, 15 seconds of lip trills.</li></ul>"),
+ T("drill","The 7-meanings drill · 5 min","<ul><li>In the Drill Room, run the 7-Meanings drill: one sentence, stressed seven different ways, seven different meanings.</li><li>Say each version out loud and <em>mean it</em>. Exaggerate — practice big so real life can be subtle.</li></ul>","emphasis"),
+ T("practice","Color the readings · 4 min","<ul><li>Read the same Rainbow Passage paragraph three ways: (1) like breaking exciting news, (2) like telling a bedtime story, (3) like a courtroom closing argument.</li><li>Notice what changes: pitch range, pace, pause. Those are your dials. Most people use none of them.</li></ul>","passages"),
+ T("mission","Today, in the wild","<p>Once today, deliberately punch the single most important word in a sentence you say. One word, full commitment.</p>")]},
+{w:1,t:"Week 1 Review: Re-record",tag:"Proof of work. Hear the difference you built.",blocks:[
+ T("warmup","Full 3-minute warm-up","<ul><li>4 belly breaths → 15s lip trills → tongue circuit → jaw circles → “the lips, the teeth, the tip of the tongue” ×5 → one pitch siren.</li><li>This is now <em>your</em> pre-game ritual. It fits in a parked car or a bathroom.</li></ul>","breath"),
+ T("drill","Re-record the baseline · 5 min","<ul><li>Same 90 seconds as Day 1: who you are, what you do, why you're good. One take.</li><li>Listen to Day 1, then today. Score both 1–5 on: crisp endings, pace, strong finishes, energy.</li></ul>"),
+ T("practice","Gauntlet: one perfect paragraph · 4 min","<ul><li>Read one Grandfather Passage paragraph with everything at once: 140 wpm, full endings, pause at periods, last word strong.</li><li>Any sentence that fails gets repeated. Perfect paragraph = week complete.</li></ul>","passages"),
+ T("mission","Carry-over","<p>The 3-minute warm-up before anything important is now permanent. Week 2 starts the real game: thinking on your feet.</p>")]},
+{w:2,t:"PREP: Structure on Demand",tag:"Never open your mouth without knowing where the sentence ends.",blocks:[
+ T("warmup","2-minute vocal warm-up","<ul><li>Belly breaths, lip trills, one twister from the bank.</li></ul>","twisters"),
+ T("drill","Learn PREP · 3 min","<ul><li><strong>P</strong>oint — state your answer in one sentence. <strong>R</strong>eason — why you believe it. <strong>E</strong>xample — one concrete story or number. <strong>P</strong>oint — restate and stop talking.</li><li>Example: “<em>I think we should ship Friday (P). The remaining bugs are cosmetic and the client's waiting (R). Last quarter we held a release two weeks for polish nobody noticed (E). So: ship Friday, patch next week (P).</em>”</li></ul><p class='why'>PREP is the go-to impromptu structure taught by Toastmasters and executive coaches. It kills rambling because the last P forces an exit.</p>"),
+ T("practice","Three rounds, out loud · 7 min","<ul><li>In the Impromptu Trainer: draw a prompt, 60 seconds, answer in PREP. Do three rounds.</li><li>It will feel stiff. Stiff is fine — you're installing scaffolding. Fluid comes by Day 14.</li></ul>","impromptu"),
+ T("mission","Today, in the wild","<p>Answer one real question today in PREP shape — point first, story second, point again, stop.</p>")]},
+{w:2,t:"Kill the Fillers",tag:"Um is a placeholder for a thought you haven't finished. Pause instead.",blocks:[
+ T("warmup","2-minute warm-up + 1 twister","<ul><li>Ritual warm-up, one medium twister ×3.</li></ul>","twisters"),
+ T("drill","Count your baseline · 5 min","<ul><li>Record 2 minutes of yourself explaining your job or a hobby. Play it back with the Filler Counter open and tap every um, uh, like, you know, kind of, sort of.</li><li>Under 4 = clean. 5–10 = normal. 10+ = this week matters. Whatever the number, it drops fast once you hear it.</li></ul>","filler"),
+ T("practice","The silent swap · 5 min","<ul><li>Re-explain the same topic for 2 minutes with one rule: when you feel a filler coming, <strong>close your mouth and pause</strong>. The silence feels like a canyon to you and reads as thoughtfulness to everyone else.</li><li>Recount. The number should already be lower.</li></ul>"),
+ T("mission","Today, in the wild","<p>Pick one meeting or call: pause instead of um, every time you catch it. Catching it at all is the win today.</p>")]},
+{w:2,t:"The Power Pause",tag:"Silence is not dead air. It's punctuation with authority.",blocks:[
+ T("warmup","2-minute warm-up","<ul><li>Breaths, trills, tongue circuit.</li></ul>","breath"),
+ T("drill","The three pauses · 4 min","<ul><li>Learn where pauses buy you power: <strong>(1) Before answering</strong> — 1–2 seconds after a question, even when you know the answer. Reads as consideration. <strong>(2) After your key point</strong> — let it land; don't bury it under the next sentence. <strong>(3) Instead of any filler.</strong></li><li>Say out loud, with a real 2-second pause at the ⏸: “That's a fair question. ⏸ Here's what I'd do.” / “This will save us forty hours a month. ⏸ Forty.”</li></ul>"),
+ T("practice","Impromptu with forced pauses · 6 min","<ul><li>Two rounds in the Impromptu Trainer. Rule: 2 full seconds of silence <em>before</em> you start, and one deliberate pause after your Point.</li><li>The discomfort you feel during the pause is the drill. Sit in it.</li></ul>","impromptu"),
+ T("mission","Today, in the wild","<p>When someone asks you anything today — even “how are you” — breathe once before answering. Notice how it changes your first sentence.</p>")]},
+{w:2,t:"Bottom Line First",tag:"In rooms, the conclusion goes first. Then the reasons. Then stop.",blocks:[
+ T("warmup","2-minute warm-up + 1 twister","<ul><li>Ritual, plus one hard twister attempted 3×.</li></ul>","twisters"),
+ T("drill","BLUF calibration · 4 min","<ul><li><strong>BLUF — Bottom Line Up Front.</strong> Rambling answer: “Well, there are a lot of factors, and we looked at several vendors, and…” BLUF answer: “<em>We should pick vendor B. Three reasons: price, support, and they've done our industry before.</em>”</li><li>Convert these out loud into BLUF: “Should we hire more support staff?” / “Why were sales down last month?” / “Can we hit the deadline?” — verdict first, then up to three reasons, then silence.</li></ul>"),
+ T("practice","Five questions, answer-first · 6 min","<ul><li>Five rounds in the Impromptu Trainer, 60s each. First sentence of every answer must be the conclusion. If you hear yourself winding up (“so basically what happened was…”), restart the answer.</li></ul>","impromptu"),
+ T("mission","Today, in the wild","<p>Answer one real question today with the conclusion as your literal first sentence. Feel how much authority it carries.</p>")]},
+{w:2,t:"Concision: 60 / 30 / 15",tag:"If you can't say it shorter, you don't know it yet.",blocks:[
+ T("warmup","2-minute warm-up","<ul><li>Ritual warm-up.</li></ul>","breath"),
+ T("drill","The compression drill · 8 min","<ul><li>Pick a topic you know well (your job, a project, a hobby). Explain it in <strong>60 seconds</strong> on the timer.</li><li>Now the same topic in <strong>30 seconds</strong>. You'll have to cut the setup and keep only what matters.</li><li>Now <strong>15 seconds</strong>. That final version — that's your headline. Notice it was hiding inside the 60-second ramble all along.</li></ul>","impromptu"),
+ T("practice","Trim the wind-up · 3 min","<ul><li>Say each idea twice: once with a wind-up (“I just kind of wanted to quickly touch on…”), once cold (“One thing before we close:”). Feel the difference in weight.</li><li>Banned openers from today: “just quickly,” “kind of,” “sort of,” “basically,” “I might be wrong but.”</li></ul>"),
+ T("mission","Today, in the wild","<p>Before one message or comment today, ask: what's the 15-second version? Deliver that one.</p>")]},
+{w:2,t:"Storytelling",tag:"Facts get filed. Stories get retold. Sell with the story.",blocks:[
+ T("warmup","2-minute warm-up + emphasis","<ul><li>Ritual, then the 7-meanings sentence twice with big emphasis.</li></ul>","emphasis"),
+ T("drill","The story spine · 4 min","<ul><li>Every usable business story has five beats: <strong>Context</strong> (where/when, one line) → <strong>Tension</strong> (what went wrong or was at stake) → <strong>Action</strong> (what YOU did — “I,” not “we”) → <strong>Result</strong> (a number or visible change) → <strong>Meaning</strong> (why it matters to the listener).</li><li>Weak: “I'm good under pressure.” Story: “Two hours before the demo, the API went down (context/tension). I rebuilt the flow on mock data and told the client up front what they were seeing (action). They signed that week (result). Pressure is where I'm most useful (meaning).”</li></ul>"),
+ T("practice","Tell one, 90 seconds · 6 min","<ul><li>Pick a real work win. Set the timer to 90s and tell it on the spine. Tell it three times — each rep gets smoother and shorter.</li><li>This story goes in your pocket. You'll build a bank of these on Day 20.</li></ul>","impromptu"),
+ T("mission","Today, in the wild","<p>Slip one 30-second story into a conversation today instead of a bare fact. Watch attention change.</p>")]},
+{w:2,t:"Week 2 Review: The Gauntlet",tag:"Structure under fire. Then hear your progress.",blocks:[
+ T("warmup","Full 3-minute ritual","<ul><li>Breath, trills, tongue, jaw, twister, siren.</li></ul>","breath"),
+ T("drill","Five-prompt gauntlet · 8 min","<ul><li>Five rounds in the Impromptu Trainer, 60–90s each: PREP shape, conclusion first, zero fillers (pause instead), one deliberate power pause per answer.</li><li>Record round five and count fillers with the counter. Compare to Day 9's baseline.</li></ul>","impromptu"),
+ T("practice","Re-record the 90 seconds · 4 min","<ul><li>Third take of your baseline recording. Listen to Day 1 → Day 7 → today, back to back. The difference is your proof of work.</li></ul>"),
+ T("mission","Carry-over","<p>PREP and BLUF are now your defaults in any room. Week 3 points all of it at the real goal: presence, pitching, and selling yourself.</p>")]},
+{w:3,t:"Strip the Weak Language",tag:"You can't sound confident while apologizing for existing.",blocks:[
+ T("warmup","3-minute ritual","<ul><li>Your full warm-up. Non-negotiable before every Week-3 session.</li></ul>","breath"),
+ T("drill","The swap list · 5 min","<ul><li>Open the Weak → Strong table in the Toolkit. Read every weak phrase out loud, then its strong replacement — out loud, twice. Your mouth needs the reps, not your eyes.</li><li>Flag your two personal favorites (everyone has them — usually “just” and “I think maybe”). Those two are your targets all week.</li></ul>"),
+ T("practice","Rewrite yourself · 5 min","<ul><li>Find three sentences you actually wrote this week (messages, emails). Say each out loud as written, then re-say it stripped: no just, no sorry, no “does that make sense,” verdict first.</li><li>Bonus: “I'll try to get it done” → “I'll have it Thursday.” Commitments beat attempts.</li></ul>"),
+ T("mission","Today, in the wild","<p>Delete “just” from everything you write today. Every single one. Read the sentence after — it's always stronger.</p>")]},
+{w:3,t:"Command the Room",tag:"Presence isn't volume. It's economy, timing, and finishing strong.",blocks:[
+ T("warmup","3-minute ritual + projection","<ul><li>Ritual, then 4 sentences to the far wall.</li></ul>"),
+ T("drill","The room playbook · 5 min","<ul><li><strong>Speak in the first five minutes.</strong> A question counts. The longer you wait, the higher the imagined bar gets.</li><li><strong>One point per contribution.</strong> Land it, stop. People who make three points at once are remembered for none.</li><li><strong>Lead with the headline:</strong> “My take: we're underpricing.” Then support.</li><li><strong>Take your time physically:</strong> sit forward, still hands, eyes on people not notes, pause before you begin.</li><li><strong>End on your own terms:</strong> finish with your point restated or a question to the room — never with a trailing “…so, yeah.”</li></ul>"),
+ T("practice","Rehearse your entrances · 5 min","<ul><li>Out loud, with the timer, practice your first 10 seconds in three imagined settings: a status meeting, a client call, an interview. First sentence slow, low, and finished.</li><li>Example shapes: “Before we dive in, one thing from last week worth 30 seconds.” / “I'll go first — my read is X, for two reasons.”</li></ul>","impromptu"),
+ T("mission","Today, in the wild","<p>In your next group setting, speak inside the first five minutes and make exactly one point. Then stop talking — cleanly.</p>")]},
+{w:3,t:"Build Your Pitch",tag:"Who you help + the problem + how + proof + ask. Thirty seconds.",blocks:[
+ T("warmup","3-minute ritual","<ul><li>Warm-up, one twister, one emphasis rep.</li></ul>","twisters"),
+ T("drill","Fill in the builder · 6 min","<ul><li>Open the My Pitch tab and fill in the five fields. Rules: the “who” is narrow, the problem is in <em>their</em> words, the proof is a number or a name, the ask is one specific action.</li><li>No job titles, no “passionate,” no “solutions.” If a 12-year-old wouldn't understand it, rewrite it.</li></ul>","pitchtab"),
+ T("practice","Ten reps out loud · 6 min","<ul><li>Say your pitch out loud ten times. Vary the wording every time — you're memorizing the <em>shape</em>, not a script. By rep ten it should sound like conversation.</li><li>Then once more on the 30-second timer, ending with the ask, last word strong.</li></ul>","impromptu"),
+ T("mission","Today, in the wild","<p>Say the pitch to one real human today — a friend counts. Watch their face at the “problem” line; if nothing flickers, sharpen the problem tomorrow.</p>")]},
+{w:3,t:"Sell the Problem, Not the Product",tag:"Amateurs pitch features. Pros ask questions and listen.",blocks:[
+ T("warmup","3-minute ritual","<ul><li>Full warm-up.</li></ul>","breath"),
+ T("drill","Discovery questions · 5 min","<ul><li>People buy when <em>they</em> say the problem out loud. Your job is questions that get them there: “What's the most frustrating part of X right now?” / “What happens if that doesn't change this year?” / “What have you already tried?”</li><li>Practice the two listening moves that double your effectiveness: <strong>Mirroring</strong> — repeat their last few words as a question (“…outbid four times?”) and let them keep going. <strong>Labeling</strong> — “Sounds like the real worry is the timeline.” Both make people feel heard, and people buy from people who hear them.</li></ul>"),
+ T("practice","Roleplay both chairs · 6 min","<ul><li>Out loud, play both sides of a 2-minute sales conversation about your own offer: you ask a discovery question, answer it as the customer, mirror, label, then — only then — connect your pitch to what “they” said.</li><li>Weird? Yes. It's also how negotiators and actors train. Two rounds.</li></ul>","impromptu"),
+ T("mission","Today, in the wild","<p>In one conversation today, ask a question and then say nothing until they're fully done. No topping their story, no planning your reply mid-listen.</p>")]},
+{w:3,t:"Handle the Pushback",tag:"An objection is interest wearing armor. Don't flinch, don't fold.",blocks:[
+ T("warmup","3-minute ritual","<ul><li>Warm-up + 2 belly breaths extra. Objections are where nerves spike; breath is the antidote.</li></ul>","breath"),
+ T("drill","The objection ladder · 5 min","<ul><li>Five rungs, in order: <strong>Pause</strong> (don't pounce — 2 seconds) → <strong>Acknowledge</strong> (“Fair — it's a real cost.”) → <strong>Clarify</strong> (“When you say expensive — versus what?”) → <strong>Reframe</strong> (“The question is what the current problem costs per month.”) → <strong>Proof + check</strong> (“Client X made it back in six weeks. Does that address it?”)</li><li>Never argue the objection head-on, never rush past it. Half of objections dissolve at the Clarify step — the stated objection is rarely the real one.</li></ul>"),
+ T("practice","Three objections, out loud · 6 min","<ul><li>On the timer, answer these three about your own offer, walking the full ladder each time: “It's too expensive.” / “We're happy with what we have.” / “Let me think about it.”</li><li>For “think about it,” practice the gentle pin: “Of course. So I bring the right info Thursday — what's the main thing you'll be weighing?”</li></ul>","impromptu"),
+ T("mission","Today, in the wild","<p>Next time anyone pushes back on anything you say, pause two seconds and clarify before defending. Feel how much stronger your response gets.</p>")]},
+{w:3,t:"Promote Yourself Without Cringing",tag:"Facts, owned plainly, are not bragging. Build the brag file.",blocks:[
+ T("warmup","3-minute ritual","<ul><li>Full warm-up.</li></ul>","breath"),
+ T("drill","Build the brag file · 6 min","<ul><li>Write down 5 real wins from the last year. Force each into one line of <strong>I + verb + result</strong>: “I rebuilt the onboarding flow and cut drop-off 30%.” “I kept our angriest client, who renewed for two years.”</li><li>Rules: “I,” not “we” (credit the team separately — but own your part). A number or a name in every line. No “helped with,” no “was involved in.”</li></ul><p class='why'>When someone asks “what do you do?” or “how's work?”, people with a brag file have an answer. Everyone else says “oh, you know, busy.”</p>"),
+ T("practice","STAR two of them · 6 min","<ul><li>Take your two best lines and expand each into a 60-second STAR story on the timer: <strong>S</strong>ituation, <strong>T</strong>ask, <strong>A</strong>ction, <strong>R</strong>esult. This is interview and promotion-case ammunition.</li><li>Deliver both with Week-1 mechanics: slow open, crisp endings, result landed hard, no uptalk on the number.</li></ul>","impromptu"),
+ T("mission","Today, in the wild","<p>Next time someone asks how work is going, answer with one specific win instead of “busy.” One sentence. Own it, don't undercut it (“…but it was nothing”).</p>")]},
+{w:3,t:"Graduation Day",tag:"Full dress rehearsal. Then a maintenance plan that keeps it.",blocks:[
+ T("warmup","The full ritual, best version","<ul><li>Breath ×4, trills, tongue circuit, jaw release, one hard twister nailed 3×, one siren, four far-wall sentences.</li></ul>","twisters"),
+ T("drill","The final recording · 8 min","<ul><li>Record, one take each, back to back: <strong>(1)</strong> your 30-second pitch, <strong>(2)</strong> a 60-second STAR story, <strong>(3)</strong> a 60-second PREP answer to a random prompt from the trainer.</li><li>Now play Day 1's baseline, then this. That gap is three weeks of reps. Keep both files.</li></ul>","impromptu"),
+ T("practice","Set the maintenance dose · 4 min","<ul><li>Skill decays without reps. Your maintenance dose, ~10 min: <strong>Daily</strong> — 3-minute warm-up before anything important. <strong>3× a week</strong> — two impromptu rounds + one twister set. <strong>Weekly</strong> — one new brag-file line; say the pitch out loud once. <strong>Monthly</strong> — re-record the 90 seconds and compare.</li></ul>"),
+ T("mission","From here","<p>Book one real rep within 7 days: volunteer to present something, take the sales call, introduce yourself to someone worth knowing — and run your ritual before it. Training is over; the season starts.</p>")]}
+];
+
+/* tools that day-blocks can link to */
+const TOOL_LINKS={
+  breath:["drills","tool-breath","Breathing Pacer"],
+  twisters:["drills","tool-twisters","Tongue Twister Bank"],
+  impromptu:["drills","tool-impromptu","Impromptu Trainer"],
+  filler:["drills","tool-filler","Filler Counter"],
+  emphasis:["drills","tool-emphasis","7-Meanings Drill"],
+  passages:["drills","tool-passages","Reading Passages"],
+  pitchtab:["pitch",null,"My Pitch builder"]
+};
+const KIND_LABEL={warmup:"Warm-up",drill:"Core drill",practice:"Practice",mission:"Real-world rep"};
+const WEEKS=[
+ {n:1,name:"The Instrument",desc:"Breath, mouth, pace, projection — mechanical clarity."},
+ {n:2,name:"The Mind",desc:"PREP, pauses, concision, story — thinking on your feet."},
+ {n:3,name:"The Market",desc:"Presence, pitch, objections, self-promotion — selling you."}
+];
+
+/* ---------------- prompts & twisters ---------------- */
+const PROMPTS=[
+"Is it better to be respected or liked? Take a side.",
+"Sell me the nearest object you can see.",
+"Describe your job to a smart 10-year-old.",
+"What's a skill everyone should be forced to learn?",
+"Convince me to visit your hometown.",
+"Tell me about a time you changed someone's mind.",
+"What's the biggest problem your industry ignores?",
+"Remote work or office — which builds better careers?",
+"Pitch your last project like it's a movie trailer.",
+"What's the best advice you've ever received, and why did it stick?",
+"Sell me a gym membership. I hate gyms.",
+"Tell me about a time you failed publicly. What did it buy you?",
+"Should everyone learn to sell? Argue it.",
+"What would you change about how meetings are run?",
+"Convince me that your favorite app deserves my money.",
+"Describe a moment you took a real risk.",
+"What do people consistently get wrong about your line of work?",
+"Is failure actually necessary for success, or is that a myth?",
+"You have 60 seconds with your industry's biggest name. Go.",
+"Sell me a pencil in the age of phones.",
+"What's your proudest professional moment? Make me feel it.",
+"Defend an unpopular opinion you actually hold.",
+"What separates people who get promoted from people who don't?",
+"Tell the story of the hardest lesson you learned the hard way.",
+"Why should someone hire you over a cheaper option?",
+"What's overrated in your field? What's underrated?",
+"Convince me to read the last book you finished.",
+"A junior colleague asks how to get noticed. Your answer?",
+"What's one thing you'd tell your younger self about speaking up?",
+"Sell me on a product you genuinely love. No notes.",
+"Describe your ideal customer and the exact pain you fix.",
+"What's a trend everyone's excited about that you doubt?",
+"Tell me about a time you turned a no into a yes.",
+"Why does your work matter to someone outside your field?",
+"You're opening a team meeting after a rough week. First 60 seconds.",
+"Make the case for a raise — yours."
+];
+const TWISTERS=[
+ {t:"Red leather, yellow leather.",l:"easy",m:"L · R · jaw agility"},
+ {t:"Unique New York, unique New York.",l:"easy",m:"N · Y · lip rounding"},
+ {t:"Good blood, bad blood.",l:"easy",m:"B · D plosives"},
+ {t:"A proper copper coffee pot.",l:"easy",m:"P · K precision"},
+ {t:"The lips, the teeth, the tip of the tongue.",l:"easy",m:"L · T · TH — the classic warm-up"},
+ {t:"Toy boat, toy boat, toy boat.",l:"easy",m:"OY · T diphthongs"},
+ {t:"She sells seashells by the seashore.",l:"medium",m:"S vs SH contrast"},
+ {t:"Peter Piper picked a peck of pickled peppers.",l:"medium",m:"P plosives · rhythm"},
+ {t:"Eleven benevolent elephants.",l:"medium",m:"L · V coordination"},
+ {t:"Fresh fried fish, fish fresh fried.",l:"medium",m:"F · R · SH sequencing"},
+ {t:"Six thick thistle sticks.",l:"medium",m:"S · TH · K"},
+ {t:"Truly rural, truly rural.",l:"medium",m:"R · L alternation"},
+ {t:"Betty Botter bought some butter, but she said the butter's bitter.",l:"medium",m:"B · T crispness"},
+ {t:"Red lorry, yellow lorry, red lorry, yellow lorry.",l:"hard",m:"R · L rapid switching"},
+ {t:"The sixth sick sheik's sixth sheep's sick.",l:"hard",m:"S · SH · K clusters"},
+ {t:"Irish wristwatch, Swiss wristwatch.",l:"hard",m:"R · S · W clusters"},
+ {t:"Pad kid poured curd pulled cod.",l:"hard",m:"P · K · D — MIT's toughest"},
+ {t:"Three free throws, three free throws.",l:"hard",m:"TH · R · F"},
+ {t:"Selfish shellfish, selfish shellfish.",l:"hard",m:"S · SH endurance"}
+];
+const EMPH={words:["I","didn't","say","he","stole","the","money"],meanings:[
+"Someone said it — but it wasn't me.",
+"I'm denying ever having said it.",
+"I implied it, hinted it — but never said it.",
+"Somebody stole it… just not him.",
+"He did something with the money — borrowed it, maybe. Not stealing.",
+"He stole money — but not that specific money.",
+"He stole something. It wasn't the money."]};
+
+/* ---------------- toolkit ---------------- */
+const TOOLKIT=[
+{n:"PREP",e:"Impromptu answers",b:`<ol class="steps"><li><strong>Point</strong> — your answer, one sentence. Say it first.</li><li><strong>Reason</strong> — the strongest “because.”</li><li><strong>Example</strong> — one story or number. Concrete beats clever.</li><li><strong>Point</strong> — restate it, then stop talking.</li></ol><p>60–90 seconds total. Under 60 can read dismissive; past two minutes you're losing the room. The final P is your exit ramp — it's what kills rambling.</p>`},
+{n:"BLUF — Bottom Line Up Front",e:"Meetings & updates",b:`<p>Conclusion first, support after: “<em>We should pick vendor B. Three reasons: price, support, industry experience. Happy to expand on any.</em>”</p><ul><li>Leaders listen conclusion-first; make them hunt for it and you read as unsure.</li><li>Cap yourself at three reasons. Then offer depth instead of forcing it.</li><li>Works in writing too — first line of every email is the ask or the answer.</li></ul>`},
+{n:"The Story Spine",e:"Persuasion & connection",b:`<ol class="steps"><li><strong>Context</strong> — where/when, one line max.</li><li><strong>Tension</strong> — what went wrong or was at stake. No tension, no story.</li><li><strong>Action</strong> — what <em>you</em> did. “I,” not “we.”</li><li><strong>Result</strong> — a number or visible change.</li><li><strong>Meaning</strong> — why the listener should care.</li></ol><p>30–90 seconds. Facts get filed; stories get retold — and retold is how reputation travels rooms you're not in.</p>`},
+{n:"STAR",e:"Interviews & promotion cases",b:`<p><strong>S</strong>ituation → <strong>T</strong>ask → <strong>A</strong>ction → <strong>R</strong>esult. The interview-standard shape for “tell me about a time when…”</p><ul><li>Spend 70% of the time on Action and Result — that's what they're buying.</li><li>Result needs a number, a name, or a before/after.</li><li>Keep 4–5 STAR stories pre-built (Day 20's brag file). Most interview questions are one of your stories wearing a costume.</li></ul>`},
+{n:"The Pitch Formula",e:"Selling yourself in 30s",b:`<p>“I help <strong>[who]</strong> who struggle with <strong>[problem]</strong>. I <strong>[how]</strong>. <strong>[Proof]</strong>. <strong>[Ask]</strong>.”</p><ul><li>Narrow who. “Owners of small gyms” beats “businesses” — specific is credible.</li><li>The problem in <em>their</em> words. It should sting a little.</li><li>Proof: one number or one name. “31 families closed last year.”</li><li>Ask: one concrete next step, not “keep me in mind.”</li></ul><p>Build yours in the <strong>My Pitch</strong> tab.</p>`},
+{n:"The Objection Ladder",e:"Handling pushback",b:`<ol class="steps"><li><strong>Pause</strong> — 2 seconds. Pouncing reads as defensive.</li><li><strong>Acknowledge</strong> — “Fair. It's a real cost.” Never “no, but—”.</li><li><strong>Clarify</strong> — “Expensive compared to what?” Half of objections dissolve right here.</li><li><strong>Reframe</strong> — shift the frame: cost of the product vs. cost of the problem.</li><li><strong>Proof + check</strong> — evidence, then “does that address it?”</li></ol><p>An objection is interest wearing armor — a truly uninterested person just says “no thanks.”</p>`},
+{n:"The Power Pause",e:"Composure & authority",b:`<ul><li><strong>Before answering:</strong> 1–2 seconds, even when you know. Reads as consideration, buys your structure time.</li><li><strong>After your key point:</strong> silence makes the point echo. Don't bury your best line under your next sentence.</li><li><strong>Instead of fillers:</strong> every “um” is a pause that lost its nerve.</li></ul><p>Rule of thumb: any silence under 3 seconds feels long only to the person holding it.</p>`},
+{n:"Vocal Authority",e:"How credible sounds",b:`<ul><li><strong>Pace:</strong> ~140–160 wpm. Slower on key points, never faster when nervous.</li><li><strong>Endings:</strong> statements end with downward pitch. Uptalk turns claims into questions.</li><li><strong>Last word strong:</strong> volume holds to the final syllable — trail-off erases authority.</li><li><strong>Range:</strong> speak from the lower end of your natural range under pressure; nerves push pitch up.</li><li><strong>Volume:</strong> support with breath to reach the farthest listener — projection, not shouting.</li></ul>`},
+{n:"Weak → Strong Swaps",e:"Language that undercuts you",b:`<div class="tablewrap"><table><tr><th>Cut this</th><th>Say this</th></tr>
+<tr><td class="weak">I just wanted to…</td><td class="strong">I'm reaching out because…</td></tr>
+<tr><td class="weak">I think maybe we should…</td><td class="strong">I recommend we…</td></tr>
+<tr><td class="weak">Sorry to bother you…</td><td class="strong">Thanks for making time.</td></tr>
+<tr><td class="weak">Does that make sense?</td><td class="strong">What questions do you have?</td></tr>
+<tr><td class="weak">This might be a dumb idea…</td><td class="strong">Here's an idea worth testing.</td></tr>
+<tr><td class="weak">I'm not an expert, but…</td><td class="strong">From what I've seen…</td></tr>
+<tr><td class="weak">I'll try to get it done.</td><td class="strong">I'll have it by Thursday.</td></tr>
+<tr><td class="weak">Kind of / sort of / basically</td><td class="strong">(delete — say the thing)</td></tr>
+<tr><td class="weak">…so, yeah.</td><td class="strong">(restate your point, full stop)</td></tr>
+<tr><td class="weak">We could possibly consider…</td><td class="strong">Two options. I recommend A, because…</td></tr></table></div>`},
+{n:"The Room Playbook",e:"Meetings & presence",b:`<ul><li><strong>Speak in the first five minutes</strong> — a question counts. Waiting raises the imagined bar.</li><li><strong>One point per contribution.</strong> Land it. Stop.</li><li><strong>Headline first:</strong> “My take: we're underpricing.” Then support.</li><li><strong>Body still, eyes up:</strong> sit forward, hands quiet, look at people.</li><li><strong>Claim your work with “I”:</strong> credit the team for theirs, own yours plainly.</li><li><strong>End cleanly:</strong> restated point or a question to the room — never “…so, yeah.”</li></ul>`},
+{n:"Listen to Sell",e:"Discovery & trust",b:`<ul><li><strong>Ask, don't pitch:</strong> “What's the most frustrating part of X right now?” “What happens if it doesn't change this year?” “What have you tried?”</li><li><strong>Mirror:</strong> repeat their last 3–4 words as a question — they'll keep unpacking.</li><li><strong>Label:</strong> “Sounds like the real worry is the timeline.” Named feelings lose their charge.</li><li><strong>The ratio:</strong> in a sales conversation, they should talk more than you. People buy when <em>they</em> say the problem out loud.</li></ul>`},
+{n:"The Daily Warm-up",e:"3 minutes, before anything big",b:`<ol class="steps"><li>4 belly breaths — in 4, out 6.</li><li>15 seconds of lip trills, add a pitch slide.</li><li>Tongue circuit: out, up, down, sweep both ways.</li><li>5 slow jaw circles + one big yawn.</li><li>“The lips, the teeth, the tip of the tongue” ×5, crisper each rep.</li><li>One pitch siren, low to high to low.</li></ol><p>Fits in a parked car, a stairwell, or a bathroom. The difference in your first sentence is audible.</p>`}
+];
+
+/* ---------------- rendering ---------------- */
+const $=s=>document.querySelector(s);
+const $$=s=>Array.from(document.querySelectorAll(s));
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+
+function doneCount(){return Object.keys(S.done).length}
+function currentDay(){for(let i=1;i<=21;i++){if(!S.done[i])return i}return 21}
+function streak(){
+  const dates=new Set(Object.values(S.done));
+  if(!dates.size)return 0;
+  let n=0;const d=new Date();
+  const iso=x=>x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0");
+  if(!dates.has(iso(d))){d.setDate(d.getDate()-1);if(!dates.has(iso(d)))return 0}
+  while(dates.has(iso(d))){n++;d.setDate(d.getDate()-1)}
+  return n;
+}
+function focusCopy(){
+  if(!S.profile)return"";
+  const p=S.profile,bits=[];
+  const goalMap={clarity:"clear, crisp speech — give extra reps to the Week-1 mouth mechanics and tongue twisters",rooms:"commanding rooms — treat every Week-2 structure drill and Day 16's Room Playbook as your core",selling:"selling and self-promotion — Week 3 is your main event; start drafting your pitch early in the My Pitch tab",all:"the full stack — run the program straight through and repeat the weakest week after Day 21"};
+  const strugMap={fillers:"the Filler Counter (Day 9)",rambling:"PREP and the 60/30/15 compression drill (Days 8 & 12)",freeze:"the Impromptu Trainer with power pauses (Days 10–11)",mumbling:"over-enunciation and the twister bank (Days 2–3)",nerves:"the Breathing Pacer before every session (Day 1)",credit:"the brag file and STAR stories (Day 20)"};
+  bits.push("<b>Your focus:</b> "+(goalMap[p.goal]||goalMap.all)+".");
+  if(p.struggles&&p.struggles.length){bits.push(" <b>Extra reps for you:</b> "+p.struggles.map(s=>strugMap[s]).filter(Boolean).join(" · ")+".")}
+  return `<div class="focusnote">${bits.join("")}</div>`;
+}
+function renderMeter(){
+  const cur=currentDay();
+  $("#meter").innerHTML=Array.from({length:21},(_,i)=>{
+    const n=i+1;const cls=S.done[n]?"done":(n===cur?"today":"");
+    return `<i class="${cls}" title="Day ${n}"></i>`;
+  }).join("");
+  $("#doneCount").textContent=doneCount();
+  $("#streakNum").textContent=streak();
+}
+function blockHTML(b){
+  let toolBtn="";
+  if(b.tool&&TOOL_LINKS[b.tool]){
+    const [tab,anchor,label]=TOOL_LINKS[b.tool];
+    toolBtn=`<a href="#" class="toollink" data-goto="${tab}" data-anchor="${anchor||""}">Open: ${label} →</a>`;
+  }
+  return `<div class="block"><span class="kind ${b.k}">${KIND_LABEL[b.k]}</span><h3>${b.t}</h3>${b.b}${toolBtn}</div>`;
+}
+function renderDay(n){
+  const d=DAYS[n-1];const isDone=!!S.done[n];
+  $("#dayCard").innerHTML=`
+    <div class="dayhead"><span class="daynum">Week ${d.w} · Day ${n} of 21</span></div>
+    <h2>${d.t}</h2>
+    <p class="daytag">${d.tag}</p>
+    ${d.blocks.map(blockHTML).join("")}
+    <div class="btn-row">
+      <button class="btn ${isDone?"done":"primary"}" id="completeBtn">${isDone?"✓ Completed — tap to undo":"Mark Day "+n+" complete"}</button>
+      <div class="navmini">
+        <button class="btn" id="prevDay" ${n===1?"disabled":""} aria-label="Previous day">←</button>
+        <button class="btn" id="nextDay" ${n===21?"disabled":""} aria-label="Next day">→</button>
+      </div>
+    </div>`;
+  $("#completeBtn").onclick=()=>{
+    if(S.done[n]){delete S.done[n]}else{S.done[n]=todayStr()}
+    save();renderDay(n);renderMeter();renderPlan();renderTodayHead(n);
+  };
+  $("#prevDay").onclick=()=>{S.viewDay=n-1;save();renderDay(n-1);renderTodayHead(n-1)};
+  $("#nextDay").onclick=()=>{S.viewDay=n+1;save();renderDay(n+1);renderTodayHead(n+1)};
+  $$("#dayCard .toollink").forEach(a=>a.onclick=e=>{e.preventDefault();gotoTab(a.dataset.goto,a.dataset.anchor)});
+}
+function renderTodayHead(n){
+  const cur=currentDay();
+  const d=DAYS[n-1];
+  const wk=WEEKS[d.w-1];
+  $("#todayEyebrow").textContent=`Week ${d.w} — ${wk.name}`;
+  const done=doneCount();
+  let g;
+  if(done===0)g="Day 1. Fifteen minutes. Begin.";
+  else if(done>=21)g="Program complete. Maintain the edge.";
+  else if(S.done[n])g=`Day ${n} complete: ${d.t}`;
+  else g=`Day ${n}: ${d.t}`;
+  $("#todayGreeting").textContent=g;
+  $("#todaySub").textContent=wk.desc;
+  $("#focusNote").innerHTML=focusCopy();
+}
+function renderPlan(){
+  const cur=currentDay();
+  $("#planList").innerHTML=WEEKS.map(w=>{
+    const rows=DAYS.map((d,i)=>({d,n:i+1})).filter(x=>x.d.w===w.n).map(x=>`
+      <button class="dayrow ${S.done[x.n]?"complete":""} ${x.n===cur?"current":""}" data-day="${x.n}">
+        <span class="dn">DAY ${String(x.n).padStart(2,"0")}</span>
+        <span class="dt">${x.d.t}<span class="dtag">${x.d.tag}</span></span>
+        <span class="tick">${S.done[x.n]?"✓":""}</span>
+      </button>`).join("");
+    return `<div class="weekhead"><span class="eyebrow">Week ${w.n}</span><h2>${w.name}</h2><span class="daytag">${w.desc}</span></div>${rows}`;
+  }).join("");
+  $$("#planList .dayrow").forEach(b=>b.onclick=()=>{
+    S.viewDay=+b.dataset.day;save();
+    renderDay(S.viewDay);renderTodayHead(S.viewDay);gotoTab("today");
+  });
+}
+function renderToolkit(){
+  $("#toolkitList").innerHTML=TOOLKIT.map(f=>`
+    <details class="card fw"><summary><h3>${f.n}</h3><span class="eyebrow">${f.e}</span></summary><div class="fw-body">${f.b}</div></details>`).join("");
+}
+
+/* ---------------- tabs ---------------- */
+function gotoTab(name,anchor){
+  $$(".tab").forEach(t=>t.setAttribute("aria-selected",String(t.dataset.tab===name)));
+  $$("section.view").forEach(v=>v.classList.toggle("hidden",v.id!=="view-"+name));
+  window.scrollTo({top:0});
+  if(anchor){requestAnimationFrame(()=>{const el=document.getElementById(anchor);if(el)el.scrollIntoView({behavior:"smooth",block:"start"})})}
+}
+$$(".tab").forEach(t=>t.onclick=()=>gotoTab(t.dataset.tab));
+
+/* ---------------- impromptu trainer ---------------- */
+let timerLen=60,timerLeft=60,timerId=null;
+function fmt(s){return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")}
+function timerRender(){
+  const f=$("#timerFace");f.textContent=fmt(timerLeft);
+  f.classList.toggle("warn",timerLeft<=10&&timerId!==null);
+  $("#timerBarFill").style.width=(100*(1-timerLeft/timerLen))+"%";
+}
+function timerStop(){clearInterval(timerId);timerId=null;$("#timerToggle").textContent="Start"}
+$("#timerToggle").onclick=()=>{
+  if(timerId){timerStop();timerLeft=timerLen;timerRender();return}
+  if(timerLeft<=0)timerLeft=timerLen;
+  $("#timerToggle").textContent="Stop";
+  timerId=setInterval(()=>{
+    timerLeft--;timerRender();
+    if(timerLeft<=0){timerStop();$("#timerFace").textContent="TIME";}
+  },1000);
+};
+$$(".seg [data-sec]").forEach(b=>b.onclick=()=>{
+  $$(".seg [data-sec]").forEach(x=>x.classList.toggle("on",x===b));
+  timerLen=+b.dataset.sec;if(!timerId){timerLeft=timerLen;timerRender()}
+});
+$("#newPrompt").onclick=()=>{
+  $("#promptBox").textContent=PROMPTS[Math.floor(Math.random()*PROMPTS.length)];
+  if(!timerId){timerLeft=timerLen;timerRender()}
+};
+
+/* ---------------- twisters ---------------- */
+let twLvl="all";
+function renderTwisters(){
+  const list=TWISTERS.filter(t=>twLvl==="all"||t.l===twLvl);
+  $("#twisterList").innerHTML=list.map(t=>`
+    <div class="twister"><span class="lvl ${t.l}">${t.l}</span><span class="tm">${t.m}</span><div class="tt">${t.t}</div></div>`).join("");
+}
+$$(".seg [data-lvl]").forEach(b=>b.onclick=()=>{
+  $$(".seg [data-lvl]").forEach(x=>x.classList.toggle("on",x===b));
+  twLvl=b.dataset.lvl;renderTwisters();
+});
+$("#shuffleTw").onclick=()=>{
+  const t=TWISTERS[Math.floor(Math.random()*TWISTERS.length)];
+  $("#twisterList").innerHTML=`<div class="twister"><span class="lvl ${t.l}">${t.l}</span><span class="tm">${t.m}</span><div class="tt" style="font-size:1.35rem">${t.t}</div><p class="daytag" style="margin-top:8px">Three reps: slow &amp; perfect → medium → fast. Every consonant must survive.</p></div>`;
+};
+
+/* ---------------- filler counter ---------------- */
+let fillers=0;
+function fillerRender(){
+  $("#fillerCount").textContent=fillers;
+  $("#fillerVerdict").textContent=fillers===0?"":fillers<=4?"Clean — broadcast level.":fillers<=10?"Normal range — the pause swap will cut this fast.":"High — good. Awareness is step one, and now you have a number to beat.";
+}
+$("#fillerTap").onclick=()=>{fillers++;fillerRender()};
+$("#fillerReset").onclick=()=>{fillers=0;fillerRender()};
+
+/* ---------------- breathing pacer ---------------- */
+let breathOn=false,breathT=null,breathCycle=0;
+const reduceMotion=matchMedia("(prefers-reduced-motion: reduce)").matches;
+function breathPhase(inhale){
+  $("#breathLabel").textContent=inhale?"IN · 4":"OUT · 6";
+  if(!reduceMotion)$("#breathRing").style.transform=inhale?"scale(1.45)":"scale(1)";
+  $("#breathRing").style.transitionDuration=inhale?"4s":"6s";
+}
+function breathLoop(){
+  breathPhase(true);
+  breathT=setTimeout(()=>{
+    breathPhase(false);
+    breathT=setTimeout(()=>{
+      breathCycle++;$("#breathCycles").textContent=breathCycle+" / 6 cycles";
+      if(breathCycle>=6){breathStop("DONE");return}
+      breathLoop();
+    },6000);
+  },4000);
+}
+function breathStop(label){
+  breathOn=false;clearTimeout(breathT);
+  $("#breathToggle").textContent="Begin";
+  $("#breathLabel").textContent=label||"READY";
+  if(!reduceMotion)$("#breathRing").style.transform="scale(1)";
+}
+$("#breathToggle").onclick=()=>{
+  if(breathOn){breathStop();return}
+  breathOn=true;breathCycle=0;$("#breathCycles").textContent="0 / 6 cycles";
+  $("#breathToggle").textContent="Stop";breathLoop();
+};
+
+/* ---------------- emphasis drill ---------------- */
+$("#emphSentence").innerHTML=EMPH.words.map((w,i)=>`<button data-i="${i}">${w}</button>`).join("");
+$$("#emphSentence button").forEach(b=>b.onclick=()=>{
+  $$("#emphSentence button").forEach(x=>x.classList.toggle("on",x===b));
+  const i=+b.dataset.i;
+  $("#emphMeaning").innerHTML=`<strong>“…${EMPH.words.map((w,j)=>j===i?w.toUpperCase():w).join(" ")}.”</strong><br>${EMPH.meanings[i]} <span class="daytag">Now say it out loud, hitting that word.</span>`;
+});
+
+/* ---------------- pitch builder ---------------- */
+const PITCH_FIELDS=["who","problem","how","proof","ask"];
+function pitchRender(){
+  const p=S.pitch,ph=(k,label)=>p[k]&&p[k].trim()?esc(p[k].trim()):`<span class="ph">[${label}]</span>`;
+  $("#pitchOut").innerHTML=
+   `I help ${ph("who","who you help")} who struggle with ${ph("problem","the problem")}. `+
+   `${ph("how","how you solve it")}. ${ph("proof","your proof")}. `+
+   `${ph("ask","your ask")}.`;
+}
+$$("#view-pitch input").forEach(inp=>{
+  inp.value=S.pitch[inp.dataset.k]||"";
+  inp.oninput=()=>{S.pitch[inp.dataset.k]=inp.value;save();pitchRender()};
+});
+$("#copyPitch").onclick=async()=>{
+  const txt=$("#pitchOut").textContent;
+  try{await navigator.clipboard.writeText(txt);$("#copyPitch").textContent="Copied ✓";setTimeout(()=>$("#copyPitch").textContent="Copy pitch",1500)}
+  catch(e){$("#copyPitch").textContent="Select & copy above"}
+};
+$("#rehearsePitch").onclick=()=>{gotoTab("drills","tool-impromptu");$("#promptBox").textContent="Deliver your pitch — who you help, the problem, how, proof, ask. End on the ask, last word strong."};
+
+/* ---------------- onboarding ---------------- */
+function obPick(containerId,multi,max){
+  const box=document.getElementById(containerId);
+  box.addEventListener("click",e=>{
+    const b=e.target.closest(".opt");if(!b)return;
+    if(multi){
+      const on=box.querySelectorAll(".opt.on");
+      if(!b.classList.contains("on")&&on.length>=max)return;
+      b.classList.toggle("on");
+    }else{
+      box.querySelectorAll(".opt").forEach(x=>x.classList.toggle("on",x===b));
+    }
+  });
+}
+if(!S.profile){
+  $("#obOverlay").hidden=false;
+  obPick("obGoal",false);obPick("obStruggle",true,3);obPick("obArena",false);
+  $("#obStart").onclick=()=>{
+    const g=$("#obGoal .opt.on"),a=$("#obArena .opt.on");
+    S.profile={
+      goal:g?g.dataset.v:"all",
+      arena:a?a.dataset.v:"meetings",
+      struggles:$$("#obStruggle .opt.on").map(b=>b.dataset.v)
+    };
+    save();$("#obOverlay").hidden=true;boot();
+  };
+}
+
+/* ---------------- boot ---------------- */
+function boot(){
+  const n=currentDay();
+  S.viewDay=n;
+  renderMeter();renderPlan();renderToolkit();renderTwisters();
+  renderDay(n);renderTodayHead(n);pitchRender();timerRender();
+}
+boot();
+</script>
