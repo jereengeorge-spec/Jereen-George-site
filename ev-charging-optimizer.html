@@ -169,6 +169,50 @@
   }
   .ctl .ctl-range { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
 
+  /* plug-in readout row */
+  .plug-row { border-top: 1px solid var(--grid); margin-top: 4px; padding-top: 14px; }
+  .plug-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 9px; }
+  .plug-head .ctl-name { margin-right: auto; }
+  .seg { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; padding: 2px; gap: 2px; }
+  .seg-btn {
+    border: 0; background: transparent; color: var(--muted);
+    font: inherit; font-size: 12px; font-weight: 600;
+    padding: 3px 11px; border-radius: 999px; cursor: pointer;
+  }
+  .seg-btn.is-on { background: var(--home); color: #fff; }
+  .seg-btn:not(.is-on):hover { color: var(--ink); }
+  .auto-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    border: 1px solid var(--border); background: transparent; color: var(--muted);
+    font: inherit; font-size: 12px; font-weight: 600;
+    padding: 4px 11px; border-radius: 999px; cursor: pointer;
+  }
+  .auto-btn .icon { opacity: 0; transition: opacity .12s; }
+  .auto-btn.is-on { background: var(--home-wash); border-color: transparent; color: var(--home); }
+  .auto-btn.is-on .icon { opacity: 1; }
+  .auto-btn:not(.is-on):hover { color: var(--ink); }
+  .seg-btn:focus-visible, .auto-btn:focus-visible, input[type="number"]:focus-visible {
+    outline: 2px solid var(--home); outline-offset: 2px;
+  }
+  .plug-body { display: flex; align-items: center; gap: 14px; }
+  .plug-body input[type="range"] { flex: 1; }
+  .plug-num {
+    display: inline-flex; align-items: baseline; gap: 4px;
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 5px 9px; background: var(--page);
+  }
+  .plug-num input {
+    width: 46px; border: 0; background: transparent; color: var(--ink);
+    font: inherit; font-size: 15px; font-weight: 700;
+    font-variant-numeric: tabular-nums; text-align: right;
+    -moz-appearance: textfield;
+  }
+  .plug-num input::-webkit-outer-spin-button,
+  .plug-num input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .plug-num span { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .plug-note { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+  .plug-note b { color: var(--ink-2); font-weight: 650; }
+
   /* KPI row */
   .kpis {
     display: grid;
@@ -244,6 +288,8 @@
   .amp-table tr:last-child td { border-bottom: none; }
   .amp-table tr.best { background: var(--home-wash); }
   .amp-table tr.best td:first-child { font-weight: 700; }
+  .amp-foot { margin: 12px 0 0; font-size: 12.5px; color: var(--muted); }
+  .amp-foot b { color: var(--ink-2); font-weight: 650; }
 
   /* Rule card */
   .rule-list { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
@@ -338,6 +384,28 @@
         <div class="ctl-range"><span>25&cent;</span><span>50&cent;</span></div>
       </div>
     </div>
+
+    <div class="plug-row">
+      <div class="plug-head">
+        <span class="ctl-name">Dash readout when you plug in</span>
+        <div class="seg" role="group" aria-label="Readout unit">
+          <button type="button" class="seg-btn is-on" data-unit="mi">Miles</button>
+          <button type="button" class="seg-btn" data-unit="pct">Percent</button>
+        </div>
+        <button type="button" class="auto-btn is-on" id="autoBtn" aria-pressed="true">
+          <svg class="icon" viewBox="0 0 24 24" style="width:12px;height:12px"><polyline points="20 6 9 17 4 12"/></svg>
+          Auto from shift
+        </button>
+      </div>
+      <div class="plug-body">
+        <input type="range" id="inPlug" min="0" max="147" step="1" value="27" aria-label="Range remaining at plug-in">
+        <div class="plug-num">
+          <input type="number" id="numPlug" min="0" max="147" step="1" value="27" aria-label="Range remaining at plug-in, typed">
+          <span id="plugUnit">mi</span>
+        </div>
+      </div>
+      <div class="plug-note" id="plugNote"></div>
+    </div>
   </section>
 
   <section class="kpis">
@@ -410,6 +478,7 @@
       <div class="table-scroll">
         <table class="amp-table" id="ampTable"></table>
       </div>
+      <p class="amp-foot" id="ampFoot"></p>
     </div>
     <div class="card">
       <h2>
@@ -427,7 +496,7 @@
   </section>
 
   <footer class="note">
-    Model assumptions: 33 kWh / 100 mi efficiency, 75 kWh usable battery (&asymp;227 mi), 48 A Level 2 delivering &asymp;9.4 kW net to the battery, 30 driving days per month, 20% DC fast-charging overhead (session losses, taper and idle fees), home spillover outside the window billed at 20&cent;/kWh. The broken-loop strategy replenishes only the first 100 miles at home and buys the rest mid-shift at the DCFC rate. Rates and mileage are illustrative &mdash; set the sliders to your utility plan.
+    Model assumptions: 33 kWh / 100 mi efficiency, 75 kWh usable battery (&asymp;227 mi), 48 A Level 2 delivering &asymp;9.4 kW net to the battery, 30 driving days per month, 20% DC fast-charging overhead (session losses, taper and idle fees), home spillover outside the window billed at 20&cent;/kWh. The broken-loop strategy replenishes only the first 100 miles at home and buys the rest mid-shift at the DCFC rate. The charge-session figures (amperage table, nightly charge time) follow the plug-in readout &mdash; set it to what the dash actually shows on a lighter night; the monthly cost and savings tiles stay on the typical-day mileage. Rates and mileage are illustrative &mdash; set the sliders to your utility plan.
   </footer>
 </div>
 
@@ -455,7 +524,8 @@
     { a: 6,  kw: 1.1, tag: "Min" }
   ];
 
-  var state = { miles: 200, commute: 40, offpeak: 0.04, dcfc: 0.35 };
+  // plugMi = null means "follow the shift model"; a number is the driver's own readout
+  var state = { miles: 200, commute: 40, offpeak: 0.04, dcfc: 0.35, plugMi: null, unit: "mi" };
 
   // ---- helpers ---------------------------------------------------------
   function $(id) { return document.getElementById(id); }
@@ -643,15 +713,36 @@
   }
 
   // ---- state-of-charge timeline -------------------------------------------
-  function buildDay() {
-    var c = state.commute;
-    var miles = state.miles;
+  // Resolves the night's charge session: where the dash reads at plug-in,
+  // either following the shift model (auto) or the driver's typed readout.
+  function plan() {
+    var c = state.commute, miles = state.miles;
     var opt = costOptimized(miles, state.offpeak, state.dcfc);
-    var pct = function (mi) { return Math.max(0, Math.min(100, mi / RANGE * 100)); };
+    var dcfcAdd = opt.needsDcfc ? opt.extraMiles : 0;
+    // the most range that can still be showing after the round-trip commute
+    var reachMax = Math.min(RANGE, Math.max(0, RANGE - 2 * c + dcfcAdd));
+    var modelArrive = Math.max(0, reachMax - Math.max(0, miles - 2 * c));
+    var arrive = state.plugMi == null
+      ? modelArrive
+      : Math.max(0, Math.min(reachMax, state.plugMi));
+    var cityMiles = Math.max(0, reachMax - arrive);
+    var nightKwh = Math.min(BATT, (RANGE - arrive) * EFF);
+    return {
+      opt: opt, commute: c, dcfcAdd: dcfcAdd,
+      reachMax: reachMax, modelArrive: modelArrive, arrive: arrive,
+      cityMiles: cityMiles, shiftMiles: Math.min(2 * c, miles) + cityMiles,
+      nightKwh: nightKwh, chargeHours: nightKwh / NET_KW_48,
+      manual: state.plugMi != null
+    };
+  }
+
+  function buildDay(p) {
+    var c = p.commute;
+    var pctOf = function (mi) { return Math.max(0, Math.min(100, mi / RANGE * 100)); };
 
     var socMi = RANGE;                 // running range, miles
     var pts = [];                      // {t, soc, phase}
-    function push(t, phase) { pts.push({ t: t, soc: pct(socMi), mi: Math.max(0, socMi), phase: phase }); }
+    function push(t, phase) { pts.push({ t: t, soc: pctOf(socMi), mi: Math.max(0, socMi), phase: phase }); }
 
     var tOutEnd = 7 + c / 40;          // commute at ~40 mph
     var tHome = 22;                    // arrive home
@@ -659,34 +750,33 @@
     push(7, "Commute out");
     socMi -= c; push(tOutEnd, "City shift");
 
-    var cityMiles = Math.max(0, miles - 2 * c);
-    if (opt.needsDcfc && cityMiles > 0) {
+    var cityMiles = p.cityMiles;
+    if (p.dcfcAdd > 0 && cityMiles > 0) {
       // mid-shift DCFC stop when the plan can't fit in the battery
       var preMiles = cityMiles * 0.55, postMiles = cityMiles - preMiles;
       var tStop = tOutEnd + (tRetStart - tOutEnd) * 0.55;
       socMi -= preMiles; push(tStop, "DCFC top-up");
-      socMi += opt.extraMiles; push(tStop + 0.5, "City shift");
+      socMi += p.dcfcAdd; push(tStop + 0.5, "City shift");
       socMi -= postMiles; push(tRetStart, "Return commute");
     } else {
       socMi -= cityMiles; push(tRetStart, "Return commute");
     }
     socMi -= c; push(tHome, "Home, unplugged");
     push(23, "Charging at 48 A");
-    var tFull = 23 + opt.chargeHours;
+    var tFull = 23 + p.chargeHours;
     socMi = RANGE; push(Math.min(tFull, 31), "Full — off-peak");
     if (tFull < 31) push(31, "Full — off-peak");
 
-    return { pts: pts, tFull: tFull, arriveMi: pts[pts.length - (tFull < 31 ? 3 : 2)].mi, opt: opt };
+    return { pts: pts, tFull: tFull, arriveMi: p.arrive, p: p, opt: p.opt };
   }
 
-  function renderSocChart() {
+  function renderSocChart(day) {
     var host = $("socChart");
     var W = 560, H = 296, L = 44, R = 10, T = 18, B = 30;
     var pw = W - L - R, ph = H - T - B;
     var svg = svgEl(W, H);
     svg.setAttribute("aria-label", "Battery state of charge across a 24 hour day on the buffer rule plan");
 
-    var day = buildDay();
     var pts = day.pts;
     var x = function (t) { return L + (t - 7) / 24 * pw; };
     var y = function (s) { return T + ph - s / 100 * ph; };
@@ -768,9 +858,11 @@
   }
 
   // ---- amperage table --------------------------------------------------------
-  function renderAmpTable() {
-    var homeKwh = Math.min(state.miles, RANGE - RESERVE_MI) * EFF;
-    $("ampSub").textContent = "Time and cost to replace today’s " + homeKwh.toFixed(1) + " kWh, by charger setting";
+  function renderAmpTable(p) {
+    var homeKwh = p.nightKwh;
+    $("ampSub").textContent = "Tonight’s " + homeKwh.toFixed(1) + " kWh refill from "
+      + Math.round(p.arrive) + " mi (" + Math.round(p.arrive / RANGE * 100) + "%), by charger setting"
+      + " · monthly assumes 30 nights like this";
 
     var checkIcon = '<svg class="icon" viewBox="0 0 24 24" style="width:12px;height:12px;stroke-width:3"><polyline points="20 6 9 17 4 12"/></svg>';
     var xIcon = '<svg class="icon" viewBox="0 0 24 24" style="width:12px;height:12px;stroke-width:3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
@@ -800,6 +892,18 @@
     $("ampTable").innerHTML =
       "<thead><tr><th>Amperage</th><th>Net power</th><th>Charge time</th><th>Fits 8-h window</th><th>Daily</th><th>Monthly</th></tr></thead>" +
       "<tbody>" + rows + "</tbody>";
+
+    // On a light night several settings finish inside the window and bill
+    // identically — the amperage only buys headroom, not a cheaper rate.
+    var fitting = AMPS.filter(function (r) { return homeKwh / r.kw <= WINDOW_H; });
+    var lowest = fitting.length ? fitting[fitting.length - 1] : null;
+    $("ampFoot").innerHTML = !lowest
+      ? "<b>No setting clears the window tonight</b> — even 48 A spills past 7 AM, so part of this refill bills at " + cents(SPILL_RATE) + "."
+      : fitting.length === 1
+        ? "<b>Only 48 A clears the window tonight.</b> Every lower setting spills into the " + cents(SPILL_RATE) + " rate."
+        : "<b>" + fitting.length + " of " + AMPS.length + " settings clear the window tonight</b> — down to " +
+          lowest.a + " A. Those all bill the same " + money2(homeKwh * state.offpeak) +
+          "; amperage buys headroom for a heavier night, not a cheaper rate.";
   }
 
   // ---- rule card ----------------------------------------------------------
@@ -819,11 +923,12 @@
       return "<li>" + check + '<span class="rule-text">' + t + "</span></li>";
     }).join("");
 
-    var opt = day.opt;
+    var opt = day.opt, p = day.p;
     var broken = costBrokenLoop(state.miles, state.offpeak, state.dcfc);
     $("ruleWhy").innerHTML =
-      "<b>Why it works:</b> at 48 A the full " + opt.homeKwh.toFixed(0) + " kWh refill takes " +
-      hoursLabel(opt.chargeHours) + " — inside the 8-hour window — so a mile costs " +
+      "<b>Why it works:</b> at 48 A tonight’s " + p.nightKwh.toFixed(0) + " kWh refill takes " +
+      hoursLabel(p.chargeHours) + " — " + (p.chargeHours <= WINDOW_H ? "inside" : "past") +
+      " the 8-hour window — so a mile costs " +
       cents(state.offpeak * EFF) + " at home vs. " + cents(state.dcfc * EFF * DCFC_OVERHEAD) + " on the DCFC network.";
 
     var alertBox = $("ruleAlert");
@@ -841,7 +946,7 @@
 
   // ---- KPIs -----------------------------------------------------------------
   function renderKpis(day, broken) {
-    var opt = day.opt;
+    var opt = day.opt, p = day.p;
     var netMo = opt.daily * DAYS;
     var brokenMo = broken.daily * DAYS;
     var saveMo = brokenMo - netMo;
@@ -852,11 +957,12 @@
     $("kpiNet").textContent = money(netMo);
     $("kpiNetNote").textContent = money2(opt.daily) + "/day · " + cents(opt.daily / state.miles) + " per mile on the buffer plan";
 
-    $("kpiCharge").innerHTML = hoursLabel(opt.chargeHours) + " " +
-      (opt.chargeHours <= WINDOW_H
+    $("kpiCharge").innerHTML = hoursLabel(p.chargeHours) + " " +
+      (p.chargeHours <= WINDOW_H
         ? '<span class="pill ok"><svg class="icon" viewBox="0 0 24 24" style="width:12px;height:12px;stroke-width:3"><polyline points="20 6 9 17 4 12"/></svg>Fits window</span>'
         : '<span class="pill bad">Spills</span>');
-    $("kpiChargeNote").textContent = "11:00 PM → " + clockLabel(23 + opt.chargeHours) + " at 9.4 kW net";
+    $("kpiChargeNote").textContent = p.nightKwh.toFixed(0) + " kWh · 11:00 PM → "
+      + clockLabel(23 + p.chargeHours) + " at 9.4 kW net";
 
     $("kpiEnergy").textContent = (state.miles * EFF).toFixed(0) + " kWh";
     $("kpiEnergyNote").textContent = state.miles + " mi at 33 kWh / 100 mi" + (opt.needsDcfc ? " · includes DCFC top-up" : "");
@@ -874,18 +980,73 @@
     $("outDcfc").innerHTML = cents(state.dcfc) + "/kWh";
   }
 
+  function syncPlugControls(p) {
+    var pct = state.unit === "pct";
+    var toUnit = function (mi) { return pct ? Math.round(mi / RANGE * 100) : Math.round(mi); };
+    var rng = $("inPlug"), num = $("numPlug");
+    var maxV = Math.max(0, toUnit(p.reachMax)), val = Math.min(maxV, toUnit(p.arrive));
+
+    rng.max = maxV; num.max = maxV;
+    if (document.activeElement !== rng) rng.value = val;
+    if (document.activeElement !== num) num.value = val;
+    $("plugUnit").textContent = pct ? "%" : "mi";
+    $("autoBtn").classList.toggle("is-on", !p.manual);
+    $("autoBtn").setAttribute("aria-pressed", String(!p.manual));
+
+    var head = p.manual ? "Manual readout" : "Auto, from the shift model";
+    var note = "<b>" + head + ":</b> home at <b>" + Math.round(p.arrive) + " mi ("
+      + Math.round(p.arrive / RANGE * 100) + "%)</b> · <b>" + p.nightKwh.toFixed(1)
+      + " kWh</b> back · " + hoursLabel(p.chargeHours) + " at 48 A, full by "
+      + clockLabel(23 + p.chargeHours) + ".";
+    var drove = Math.round(p.shiftMiles);
+    if (p.manual && Math.abs(drove - state.miles) >= 5) {
+      note += " That is a <b>≈" + drove + " mi</b> day — the monthly figures above still use the "
+        + state.miles + " mi typical day.";
+    }
+    $("plugNote").innerHTML = note;
+  }
+
   function renderAll() {
     readInputs();
-    var day = buildDay();
+    var p = plan();
+    var day = buildDay(p);
     var broken = renderRuleCard(day);
     renderKpis(day, broken);
     renderBarChart();
-    renderSocChart();
-    renderAmpTable();
+    renderSocChart(day);
+    renderAmpTable(p);
+    syncPlugControls(p);
   }
 
   ["inMiles", "inCommute", "inOffpeak", "inDcfc"].forEach(function (id) {
     $(id).addEventListener("input", renderAll);
+  });
+
+  // plug-in readout: slider, typed entry, unit toggle, auto reset
+  function setPlugFromValue(v) {
+    if (!isFinite(v)) return;
+    state.plugMi = state.unit === "pct" ? v / 100 * RANGE : v;
+    renderAll();
+  }
+  $("inPlug").addEventListener("input", function () { setPlugFromValue(+this.value); });
+  $("numPlug").addEventListener("input", function () {
+    if (this.value !== "") setPlugFromValue(+this.value);
+  });
+  $("numPlug").addEventListener("blur", renderAll);
+  Array.prototype.forEach.call(document.querySelectorAll(".seg-btn"), function (btn) {
+    btn.addEventListener("click", function () {
+      state.unit = btn.getAttribute("data-unit");
+      Array.prototype.forEach.call(document.querySelectorAll(".seg-btn"), function (b) {
+        b.classList.toggle("is-on", b === btn);
+      });
+      $("inPlug").max = state.unit === "pct" ? 100 : Math.round(RANGE);
+      $("inPlug").step = 1;
+      renderAll();
+    });
+  });
+  $("autoBtn").addEventListener("click", function () {
+    state.plugMi = null;
+    renderAll();
   });
 
   // theme toggle: stamp data-theme so it wins over the OS preference
