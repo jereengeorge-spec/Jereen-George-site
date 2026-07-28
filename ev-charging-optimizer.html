@@ -154,7 +154,7 @@
   /* Controls */
   .controls {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
     gap: 18px 28px;
     margin-bottom: 16px;
   }
@@ -456,7 +456,7 @@
     <div>
       <div class="eyebrow">EV rideshare operations &middot; 2023 Volvo XC40 Recharge</div>
       <h1>Home Charging Economics Optimizer</h1>
-      <p class="sub">75 kWh usable &middot; 33 kWh / 100 mi &middot; 48 A Level 2 at home &middot; super off-peak window 11:00 PM &ndash; 7:00 AM. Move every kilowatt-hour you can into that window and off the DC fast-charge network.</p>
+      <p class="sub">75 kWh usable &middot; 237 mi rated &middot; 48 A Level 2 measured at <b>11.19 kW</b> from the panel, <b>10.8 kW</b> into the battery &middot; super off-peak window 11:00 PM &ndash; 7:00 AM at a confirmed 4&cent;/kWh. Move every kilowatt-hour you can into that window and off the DC fast-charge network.</p>
     </div>
     <button class="theme-btn" id="themeBtn" aria-label="Toggle color theme">
       <svg class="icon" viewBox="0 0 24 24" id="themeIcon"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
@@ -498,6 +498,11 @@
         <label for="inDcfc"><span class="ctl-name">DC fast-charge rate</span><output id="outDcfc">35&cent;/kWh</output></label>
         <input type="range" id="inDcfc" min="0.25" max="0.50" step="0.01" value="0.35">
         <div class="ctl-range"><span>25&cent;</span><span>50&cent;</span></div>
+      </div>
+      <div class="ctl">
+        <label for="inCapture"><span class="ctl-name">Lands in the 4&cent; window</span><output id="outCapture">100%</output></label>
+        <input type="range" id="inCapture" min="0" max="100" step="5" value="100">
+        <div class="ctl-range"><span>0%</span><span>100%</span></div>
       </div>
     </div>
 
@@ -697,9 +702,9 @@
             <div class="day-read" id="dayReadWrap">
               <label class="ctl-name" for="dayReadNum">Dash readout at plug-in</label>
               <div class="plug-body" style="margin-top:7px">
-                <input type="range" id="dayReadRange" min="0" max="227" step="1" value="27">
+                <input type="range" id="dayReadRange" min="0" max="237" step="1" value="28">
                 <div class="plug-num">
-                  <input type="number" id="dayReadNum" min="0" max="227" step="1" value="27">
+                  <input type="number" id="dayReadNum" min="0" max="237" step="1" value="28">
                   <span id="dayReadUnit">mi</span>
                 </div>
               </div>
@@ -726,6 +731,18 @@
 
     <section class="card" style="margin-top:16px">
       <h2>
+        <svg class="icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><polyline points="7 14 11 9 15 12 20 6"/></svg>
+        Against the meter
+      </h2>
+      <p class="card-sub">What the charger app actually recorded, next to what this model projects. Edit a month to keep it current.</p>
+      <div class="table-scroll">
+        <table class="amp-table" id="actualTable"></table>
+      </div>
+      <p class="amp-foot" id="actualFoot"></p>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h2>
         <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Saving &amp; sync
       </h2>
@@ -743,7 +760,7 @@
   </div>
 
   <footer class="note">
-    Model assumptions: 33 kWh / 100 mi efficiency, 75 kWh usable battery (&asymp;227 mi), 48 A Level 2 delivering &asymp;9.4 kW net to the battery, 30 driving days per month, 20% DC fast-charging overhead (session losses, taper and idle fees), home spillover outside the window billed at 20&cent;/kWh. The broken-loop strategy replenishes only the first 100 miles at home and buys the rest mid-shift at the DCFC rate. The charge-session figures (amperage table, nightly charge time) follow the plug-in readout &mdash; set it to what the dash actually shows on a lighter night; the monthly cost and savings tiles stay on the typical-day mileage. Rates and mileage are illustrative &mdash; set the sliders to your utility plan.
+    Calibrated from your own apps (1:46 AM reading): the car drew <b>47 A</b> at <b>10.8 kW</b> into the battery while the panel metered <b>11.19 kW</b> &mdash; so the charger runs about <b>96.5% efficient</b>, and cost is figured on the panel draw (what the meter bills) while charge time is figured on what reaches the battery. Rated range is <b>237 mi</b> at 100%, from the observed 211 mi at 89%; driving consumption is 33 kWh / 100 mi, which is why a full battery covers about 227 real miles rather than the rated 237. Also assumed: 30 nights per month, 20% DC fast-charging overhead (session losses, taper and idle fees), and energy outside the window billed at 20&cent;/kWh. The broken-loop strategy replenishes only the first 100 miles at home and buys the rest mid-shift at the DCFC rate. The charge-session figures (amperage table, nightly charge time) follow the plug-in readout &mdash; set it to what the dash actually shows on a lighter night; the monthly cost and savings tiles stay on the typical-day mileage. Rates and mileage are illustrative &mdash; set the sliders to your utility plan.
     <br><br>
     <b>Month tab:</b> the projection covers the trailing 30 nights. A night you logged uses your entered readout; every other night is filled from your usual week, using the average readout of the nights you have logged for that type (the model&rsquo;s estimate until there is history). Assumed nights are drawn dashed on the calendar and faded on the running-cost chart, so what is measured is always distinguishable from what is inferred. The log saves in this browser; Google Drive sync is a manual push/pull and needs Drive connected as a claude.ai connector for the person viewing the page.
   </footer>
@@ -754,27 +771,42 @@
   "use strict";
 
   // ---- constants -----------------------------------------------------
-  var EFF = 0.33;            // kWh per mile
+  // ---- calibrated from the car and panel apps, 1:46 AM -------------------
+  // Volvo app: 89% / 211 mi, 47 A, 10.8 kW to the battery.
+  // Panel app: 11.19 kW at the same moment — the billed draw.
+  var EFF = 0.33;            // kWh per mile, real-world rideshare driving
   var BATT = 75;             // usable kWh
-  var RANGE = BATT / EFF;    // ~227 mi
-  var NET_KW_48 = 9.4;       // net kW at 48 A
+  var RANGE = 237;           // rated mi at 100% (211 mi observed at 89%)
+  var VOLTS = 238;           // 11.19 kW / 47 A
+  var KW_PANEL = 11.19;      // billed draw at the 48 A setting
+  var KW_BATT = 10.8;        // reaching the battery
+  var CHG_EFF = KW_BATT / KW_PANEL;   // ~96.5% onboard-charger efficiency
+  var NET_KW_48 = KW_BATT;   // battery-side rate sets charge time
   var WINDOW_H = 8;          // 11 PM - 7 AM
   var SPILL_RATE = 0.20;     // $/kWh outside the window
   var DCFC_OVERHEAD = 1.2;   // losses + taper at fast chargers
   var DAYS = 30;
   var BUFFER_MI = 60;        // reserve on top of the commute home
   var RESERVE_MI = 20;       // never plan below this on the road
-  var AMPS = [
-    { a: 48, kw: 9.4, tag: "Max" },
-    { a: 40, kw: 8.0, tag: "" },
-    { a: 32, kw: 6.4, tag: "" },
-    { a: 24, kw: 4.7, tag: "Mid" },
-    { a: 16, kw: 3.1, tag: "" },
-    { a: 6,  kw: 1.1, tag: "Min" }
-  ];
+  var REAL_RANGE = BATT / EFF;   // ~227 mi actually drivable at rideshare consumption
+  // The car requests 47 A at the 48 A setting; lower settings bind at their own limit.
+  var AMPS = [48, 40, 32, 24, 16, 6].map(function (a) {
+    var draw = Math.min(a, 47);
+    var panel = draw * VOLTS / 1000;
+    return {
+      a: a, draw: draw, panelKw: panel, kw: panel * CHG_EFF,
+      tag: a === 48 ? "Max" : a === 24 ? "Mid" : a === 6 ? "Min" : "",
+      measured: a === 48
+    };
+  });
+
+  // The dash reads rated miles; energy is the invariant behind it.
+  function readToKwh(read) { return Math.max(0, (1 - read / RANGE)) * BATT; }   // kWh to fill
+  function kwhToRead(kwhLeft) { return Math.max(0, kwhLeft) / BATT * RANGE; }   // rated mi showing
+  function billed(batteryKwh) { return batteryKwh / CHG_EFF; }                  // what the meter sees
 
   // plugMi = null means "follow the shift model"; a number is the driver's own readout
-  var state = { miles: 200, commute: 40, offpeak: 0.04, dcfc: 0.35, plugMi: null, unit: "mi" };
+  var state = { miles: 200, commute: 40, offpeak: 0.04, dcfc: 0.35, plugMi: null, unit: "mi", capture: 1 };
 
   // ---- helpers ---------------------------------------------------------
   function $(id) { return document.getElementById(id); }
@@ -805,17 +837,19 @@
   // Pure home charging covers up to (RANGE - RESERVE_MI) miles/day; past
   // that, a real driver needs a mid-shift DCFC top-up even on this plan.
   function costOptimized(miles, offpeak, dcfc) {
-    var homeMiles = Math.min(miles, RANGE - RESERVE_MI);
+    var homeMiles = Math.min(miles, REAL_RANGE - RESERVE_MI);
     var extraMiles = Math.max(0, miles - homeMiles);
-    var homeKwh = homeMiles * EFF;
-    var offKwh = Math.min(homeKwh, NET_KW_48 * WINDOW_H);
+    var homeKwh = homeMiles * EFF;                       // into the battery
+    // what fits the window, times the share that actually lands inside it
+    var offKwh = Math.min(homeKwh, NET_KW_48 * WINDOW_H) * state.capture;
     var spillKwh = homeKwh - offKwh;
     var dcfcKwh = extraMiles * EFF * DCFC_OVERHEAD;
     return {
       homeKwh: homeKwh,
+      billedKwh: billed(homeKwh),
       dcfcKwh: dcfcKwh,
       chargeHours: homeKwh / NET_KW_48,
-      daily: offKwh * offpeak + spillKwh * SPILL_RATE + dcfcKwh * dcfc,
+      daily: billed(offKwh) * offpeak + billed(spillKwh) * SPILL_RATE + dcfcKwh * dcfc,
       dcfcDaily: dcfcKwh * dcfc,
       needsDcfc: extraMiles > 0,
       extraMiles: extraMiles
@@ -830,8 +864,8 @@
     var homeKwh = homeMiles * EFF;
     var dcfcKwh = dcfcMiles * EFF * DCFC_OVERHEAD;
     return {
-      daily: homeKwh * offpeak + dcfcKwh * dcfc,
-      homeDaily: homeKwh * offpeak,
+      daily: billed(homeKwh) * offpeak + dcfcKwh * dcfc,
+      homeDaily: billed(homeKwh) * offpeak,
       dcfcDaily: dcfcKwh * dcfc
     };
   }
@@ -968,19 +1002,23 @@
     var c = state.commute, miles = state.miles;
     var opt = costOptimized(miles, state.offpeak, state.dcfc);
     var dcfcAdd = opt.needsDcfc ? opt.extraMiles : 0;
-    // the most range that can still be showing after the round-trip commute
-    var reachMax = Math.min(RANGE, Math.max(0, RANGE - 2 * c + dcfcAdd));
-    var modelArrive = Math.max(0, reachMax - Math.max(0, miles - 2 * c));
+    // Readouts are rated miles, so convert through energy: driving burns
+    // kWh, and the dash shows whatever charge is left as rated miles.
+    var kwhAfterCommute = BATT - Math.min(2 * c, miles) * EFF + dcfcAdd * EFF;
+    var reachMax = Math.min(RANGE, kwhToRead(kwhAfterCommute));
+    var modelArrive = kwhToRead(BATT - miles * EFF + dcfcAdd * EFF);
     var arrive = state.plugMi == null
       ? modelArrive
       : Math.max(0, Math.min(reachMax, state.plugMi));
-    var cityMiles = Math.max(0, reachMax - arrive);
-    var nightKwh = Math.min(BATT, (RANGE - arrive) * EFF);
+    // miles of city driving implied by ending the night at this readout
+    var cityMiles = Math.max(0, (readToKwh(arrive) - readToKwh(reachMax)) / EFF);
+    var nightKwh = readToKwh(arrive);
     return {
       opt: opt, commute: c, dcfcAdd: dcfcAdd,
       reachMax: reachMax, modelArrive: modelArrive, arrive: arrive,
       cityMiles: cityMiles, shiftMiles: Math.min(2 * c, miles) + cityMiles,
-      nightKwh: nightKwh, chargeHours: nightKwh / NET_KW_48,
+      nightKwh: nightKwh, billedKwh: billed(nightKwh),
+      chargeHours: nightKwh / NET_KW_48,
       manual: state.plugMi != null
     };
   }
@@ -988,6 +1026,8 @@
   function buildDay(p) {
     var c = p.commute;
     var pctOf = function (mi) { return Math.max(0, Math.min(100, mi / RANGE * 100)); };
+    // a real mile driven drops the rated readout by slightly more than 1
+    var RD = RANGE / REAL_RANGE;
 
     var socMi = RANGE;                 // running range, miles
     var pts = [];                      // {t, soc, phase}
@@ -997,20 +1037,20 @@
     var tHome = 22;                    // arrive home
     var tRetStart = tHome - c / 40;
     push(7, "Commute out");
-    socMi -= c; push(tOutEnd, "City shift");
+    socMi -= c * RD; push(tOutEnd, "City shift");
 
     var cityMiles = p.cityMiles;
     if (p.dcfcAdd > 0 && cityMiles > 0) {
       // mid-shift DCFC stop when the plan can't fit in the battery
       var preMiles = cityMiles * 0.55, postMiles = cityMiles - preMiles;
       var tStop = tOutEnd + (tRetStart - tOutEnd) * 0.55;
-      socMi -= preMiles; push(tStop, "DCFC top-up");
-      socMi += p.dcfcAdd; push(tStop + 0.5, "City shift");
-      socMi -= postMiles; push(tRetStart, "Return commute");
+      socMi -= preMiles * RD; push(tStop, "DCFC top-up");
+      socMi += p.dcfcAdd * RD; push(tStop + 0.5, "City shift");
+      socMi -= postMiles * RD; push(tRetStart, "Return commute");
     } else {
-      socMi -= cityMiles; push(tRetStart, "Return commute");
+      socMi -= cityMiles * RD; push(tRetStart, "Return commute");
     }
-    socMi -= c; push(tHome, "Home, unplugged");
+    socMi -= c * RD; push(tHome, "Home, unplugged");
     push(23, "Charging at 48 A");
     var tFull = 23 + p.chargeHours;
     socMi = RANGE; push(Math.min(tFull, 31), "Full — off-peak");
@@ -1117,10 +1157,10 @@
     var xIcon = '<svg class="icon" viewBox="0 0 24 24" style="width:12px;height:12px;stroke-width:3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
 
     var rows = AMPS.map(function (r) {
-      var hours = homeKwh / r.kw;
+      var hours = homeKwh / r.kw;                        // battery-side rate sets the time
       var offKwh = Math.min(homeKwh, r.kw * WINDOW_H);
       var spillKwh = homeKwh - offKwh;
-      var daily = offKwh * state.offpeak + spillKwh * SPILL_RATE;
+      var daily = billed(offKwh) * state.offpeak + billed(spillKwh) * SPILL_RATE;
       var fits = hours <= WINDOW_H;
       var unfeasible = hours > 24;
       var pill = unfeasible
@@ -1128,9 +1168,12 @@
         : fits
           ? '<span class="pill ok">' + checkIcon + "Yes</span>"
           : '<span class="pill warn-p">' + xIcon + "Spills</span>";
+      var label = r.a + " A" + (r.tag ? ' <span style="color:var(--muted);font-size:11.5px">' + r.tag + "</span>" : "")
+        + (r.measured ? ' <span class="pill ok" style="font-size:10px;padding:1px 6px">measured</span>' : "");
       return '<tr class="' + (r.a === 48 ? "best" : "") + '">' +
-        "<td>" + r.a + " A" + (r.tag ? ' <span style="color:var(--muted);font-size:11.5px">' + r.tag + "</span>" : "") + "</td>" +
-        "<td>" + r.kw.toFixed(1) + " kW</td>" +
+        "<td>" + label + "</td>" +
+        "<td>" + r.panelKw.toFixed(2) + " kW</td>" +
+        "<td>" + r.kw.toFixed(2) + " kW</td>" +
         "<td>" + (unfeasible ? "60+ h" : hoursLabel(hours)) + "</td>" +
         "<td>" + pill + "</td>" +
         "<td>" + (unfeasible ? "—" : money2(daily)) + "</td>" +
@@ -1139,7 +1182,8 @@
     }).join("");
 
     $("ampTable").innerHTML =
-      "<thead><tr><th>Amperage</th><th>Net power</th><th>Charge time</th><th>Fits 8-h window</th><th>Daily</th><th>Monthly</th></tr></thead>" +
+      "<thead><tr><th>Amperage</th><th>Panel draw</th><th>To battery</th><th>Charge time</th>"
+      + "<th>Fits 8-h window</th><th>Daily</th><th>Monthly</th></tr></thead>" +
       "<tbody>" + rows + "</tbody>";
 
     // On a light night several settings finish inside the window and bill
@@ -1151,8 +1195,10 @@
       : fitting.length === 1
         ? "<b>Only 48 A clears the window tonight.</b> Every lower setting spills into the " + cents(SPILL_RATE) + " rate."
         : "<b>" + fitting.length + " of " + AMPS.length + " settings clear the window tonight</b> — down to " +
-          lowest.a + " A. Those all bill the same " + money2(homeKwh * state.offpeak) +
-          "; amperage buys headroom for a heavier night, not a cheaper rate.";
+          lowest.a + " A. Those all bill the same "
+          + money2(billed(homeKwh * state.capture) * state.offpeak
+                 + billed(homeKwh * (1 - state.capture)) * SPILL_RATE)
+          + "; amperage buys headroom for a heavier night, not a cheaper rate.";
   }
 
   // ---- rule card ----------------------------------------------------------
@@ -1165,7 +1211,7 @@
       "Drive the " + state.commute + "-mile commute, then run rideshare in the city.",
       "When the range readout hits <b>" + thr + " mi</b>, end the shift — that is " + state.commute + " mi to get home plus a " + BUFFER_MI + "-mile buffer.",
       "Arrive home with a reserve. <b>Skip every DC fast charger</b> on a normal day.",
-      "Plug into the 48 A Level 2 and schedule charging for <b>11:00 PM sharp</b>.",
+      "Plug into the 48 A Level 2 (11.19 kW at the panel) and schedule charging for <b>11:00 PM sharp</b>.",
       "Battery is full by <b>" + clockLabel(day.tFull) + "</b> — every kWh billed at " + cents(state.offpeak) + "."
     ];
     $("ruleList").innerHTML = items.map(function (t) {
@@ -1185,7 +1231,7 @@
       alertBox.hidden = false;
       $("ruleAlertText").innerHTML =
         "At <b>" + state.miles + " mi/day</b> the battery can’t carry the whole shift: pure home charging covers up to <b>" +
-        Math.round(RANGE - RESERVE_MI) + " mi/day</b>. Plan a mid-shift top-up of ≈" +
+        Math.round(REAL_RANGE - RESERVE_MI) + " mi/day</b>. Plan a mid-shift top-up of ≈" +
         opt.dcfcKwh.toFixed(0) + " kWh (" + money2(opt.dcfcDaily) + "/day) — already included in the totals.";
     } else {
       alertBox.hidden = true;
@@ -1210,11 +1256,12 @@
       (p.chargeHours <= WINDOW_H
         ? '<span class="pill ok"><svg class="icon" viewBox="0 0 24 24" style="width:12px;height:12px;stroke-width:3"><polyline points="20 6 9 17 4 12"/></svg>Fits window</span>'
         : '<span class="pill bad">Spills</span>');
-    $("kpiChargeNote").textContent = p.nightKwh.toFixed(0) + " kWh · 11:00 PM → "
-      + clockLabel(23 + p.chargeHours) + " at 9.4 kW net";
+    $("kpiChargeNote").textContent = p.nightKwh.toFixed(0) + " kWh to the battery ("
+      + p.billedKwh.toFixed(0) + " billed) · 11:00 PM → " + clockLabel(23 + p.chargeHours)
+      + " at " + KW_BATT + " kW";
 
     $("kpiEnergy").textContent = (state.miles * EFF).toFixed(0) + " kWh";
-    $("kpiEnergyNote").textContent = state.miles + " mi at 33 kWh / 100 mi" + (opt.needsDcfc ? " · includes DCFC top-up" : "");
+    $("kpiEnergyNote").textContent = state.miles + " mi at 33 kWh / 100 mi · " + billed(state.miles * EFF).toFixed(0) + " kWh billed" + (opt.needsDcfc ? " · includes DCFC top-up" : "");
   }
 
   // ---- wiring -----------------------------------------------------------------
@@ -1223,6 +1270,8 @@
     state.commute = +$("inCommute").value;
     state.offpeak = +$("inOffpeak").value;
     state.dcfc = +$("inDcfc").value;
+    state.capture = +$("inCapture").value / 100;
+    $("outCapture").textContent = Math.round(state.capture * 100) + "%";
     $("outMiles").textContent = state.miles + " mi";
     $("outCommute").textContent = state.commute + " mi";
     $("outOffpeak").innerHTML = cents(state.offpeak) + "/kWh";
@@ -1267,7 +1316,7 @@
     syncPlugControls(p);
   }
 
-  ["inMiles", "inCommute", "inOffpeak", "inDcfc"].forEach(function (id) {
+  ["inMiles", "inCommute", "inOffpeak", "inDcfc", "inCapture"].forEach(function (id) {
     $(id).addEventListener("input", renderAll);
   });
 
@@ -1387,13 +1436,15 @@
   function nightCost(type, readMi) {
     if (type === "off") return { kwh: 0, cost: 0, miles: 0, dcfc: 0 };
     var read = Math.max(0, Math.min(RANGE, readMi));
-    var kwh = Math.min(BATT, (RANGE - read) * EFF);
-    var offKwh = Math.min(kwh, NET_KW_48 * WINDOW_H);
+    var kwh = readToKwh(read);                       // into the battery
+    var capacity = NET_KW_48 * WINDOW_H;             // what the window can deliver
+    var offKwh = Math.min(kwh, capacity) * state.capture;
     var spill = kwh - offKwh;
-    var miles = RANGE - read;
+    var miles = kwh / EFF;
     return {
       kwh: kwh,
-      cost: offKwh * state.offpeak + spill * SPILL_RATE,
+      billed: billed(kwh),
+      cost: billed(offKwh) * state.offpeak + billed(spill) * SPILL_RATE,
       miles: miles,
       dcfc: costBrokenLoop(miles, state.offpeak, state.dcfc).daily
     };
@@ -1724,6 +1775,60 @@
     });
   }
 
+  // ---- actuals from the charger app -------------------------------------------------
+  // Billed kWh the panel recorded. These are metered facts, not model output.
+  var ACTUALS = [
+    { label: "May 2026", kwh: 950.7, days: 31 },
+    { label: "June 2026", kwh: 724.2, days: 30 },
+    { label: "July 2026", kwh: 886.4, days: 28, partial: true }
+  ];
+  function avgPerDay() {
+    return ACTUALS.reduce(function (s, a) { return s + a.kwh / a.days; }, 0) / ACTUALS.length;
+  }
+  function renderActuals(m) {
+    var rows = ACTUALS.map(function (a) {
+      var perDay = a.kwh / a.days;
+      var atOff = a.kwh * state.offpeak;
+      var atSpill = a.kwh * SPILL_RATE;
+      var blended = a.kwh * (state.capture * state.offpeak + (1 - state.capture) * SPILL_RATE);
+      // what those same kWh would have cost bought on the fast-charge network
+      var dcfcEquiv = a.kwh * CHG_EFF * DCFC_OVERHEAD * state.dcfc;
+      return "<tr>" +
+        "<td>" + a.label + (a.partial ? ' <span style="color:var(--muted);font-size:11.5px">to 7/28</span>' : "") + "</td>" +
+        "<td>" + a.kwh.toFixed(1) + " kWh</td>" +
+        "<td>" + perDay.toFixed(1) + " kWh</td>" +
+        "<td>" + Math.round(perDay * CHG_EFF / EFF) + " mi</td>" +
+        "<td>" + money2(atOff) + "</td>" +
+        "<td>" + money2(blended) + "</td>" +
+        "<td>" + money(dcfcEquiv) + "</td>" +
+        "</tr>";
+    }).join("");
+    $("actualTable").innerHTML =
+      "<thead><tr><th>Month</th><th>Billed energy</th><th>Per day</th><th>Implied miles/day</th>"
+      + "<th>All at " + cents(state.offpeak) + "</th><th>At " + Math.round(state.capture * 100) + "% capture</th>"
+      + "<th>Same kWh on DCFC</th></tr></thead><tbody>" + rows + "</tbody>";
+
+    // A full shift is ~66 kWh to the battery. Expressing a real month in
+    // those units says how many full nights the meter actually saw — which
+    // is the number the weekly pattern above is really setting.
+    var fullNightKwh = billed(Math.min(state.miles, REAL_RANGE - RESERVE_MI) * EFF);
+    var july = ACTUALS[ACTUALS.length - 1];
+    var fullEquiv = july.kwh / fullNightKwh;
+    var modelFullNights = m.rows.filter(function (r) { return r.type === "full"; }).length;
+    $("actualFoot").innerHTML =
+      "<b>July's " + july.kwh.toFixed(0) + " kWh is about " + fullEquiv.toFixed(1)
+      + " full shifts' worth of energy</b> in " + july.days + " days, at "
+      + fullNightKwh.toFixed(0) + " kWh per full night. Your usual week above currently sets <b>"
+      + modelFullNights + " full nights</b> across 30 — "
+      + (Math.abs(modelFullNights - fullEquiv) <= 2
+          ? "which matches the meter well."
+          : modelFullNights > fullEquiv
+            ? "heavier than the meter has seen, so treat the projection as where the ramp-up is heading rather than where you are."
+            : "lighter than the meter has seen.")
+      + " The daily average (" + avgPerDay().toFixed(1) + " kWh across three months) is dragged down by light days: "
+      + "late-July nights on the charger app run 45–93 kWh, right at or above a full shift.";
+  }
+
   // ---- month render + wiring ------------------------------------------------------
   function renderMonth() {
     var m = monthSeries();
@@ -1731,6 +1836,7 @@
     renderMonthChart(m);
     renderCalendar(m);
     renderWeek(m);
+    renderActuals(m);
     if (selKey) {
       var still = m.rows.filter(function (r) { return r.key === selKey; })[0];
       if (still) $("dayEditorSub").textContent = still.logged
@@ -1800,7 +1906,7 @@
   $("tabBtnMonth").addEventListener("click", function () { showTab("month"); });
 
   // rate sliders change every night's cost — keep the month in step
-  ["inMiles", "inCommute", "inOffpeak", "inDcfc"].forEach(function (id) {
+  ["inMiles", "inCommute", "inOffpeak", "inDcfc", "inCapture"].forEach(function (id) {
     $(id).addEventListener("input", function () { if (!$("viewMonth").hidden) renderMonth(); });
   });
 
