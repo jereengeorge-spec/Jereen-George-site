@@ -1,0 +1,30 @@
+{
+  "niche": "practical public speaking and articulation tips for professionals",
+
+  "script": {
+    "targetSeconds": 25,
+    "readingLevel": "6th grade",
+    "wordsPerSecond": 2.6
+  },
+
+  "video": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30,
+    "hookSeconds": 2.5,
+    "outroSeconds": 2
+  },
+
+  "voice": {
+    "speed": 1,
+    "pitch": 50,
+    "emotion": "Excited"
+  },
+
+  "brand": {
+    "handle": "@jereengeorge",
+    "accent": "#5eead4",
+    "background": "#0b1120",
+    "text": "#f8fafc"
+  }
+}

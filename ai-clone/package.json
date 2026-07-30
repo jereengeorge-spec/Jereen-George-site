@@ -1,0 +1,13 @@
+{
+  "name": "ai-clone",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes hyperframes@0.7.84 preview",
+    "check": "npx --yes hyperframes@0.7.84 check",
+    "render": "npx --yes hyperframes@0.7.84 render",
+    "publish": "npx --yes hyperframes@0.7.84 publish",
+    "build": "node build.mjs",
+    "produce": "node run.mjs"
+  }
+}
