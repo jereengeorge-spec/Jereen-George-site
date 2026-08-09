@@ -14,6 +14,7 @@ on handoff. These markdown files are the source of truth behind it.
 | [`BUSINESS_MODEL.md`](BUSINESS_MODEL.md) | What the business is, who buys it, what it costs to run, how many customers replace an income, where it sits against competitors, what's still at risk |
 | [`OPERATIONS.md`](OPERATIONS.md) | The daily / weekly / monthly rhythms, the seven tracked metrics, five standard procedures, five runbooks, the access inventory and handoff checklist |
 | [`CRM.md`](CRM.md) | What the CRM actually is, every table and console panel, the acquisition-pipeline gap, and the migration that fills it |
+| [`PARTNER_OUTREACH.md`](PARTNER_OUTREACH.md) | The referral channel made executable: free directories to build the list, the angle per profession, sendable scripts, objection handling, and the first-two-weeks plan |
 | [`../marketing/GROWTH_MODEL.md`](../marketing/GROWTH_MODEL.md) | Which channel reaches income replacement, with the Hormozi money-model math and sources |
 | [`../marketing/PLAYBOOK.md`](../marketing/PLAYBOOK.md) | How the content actually gets made |
 
