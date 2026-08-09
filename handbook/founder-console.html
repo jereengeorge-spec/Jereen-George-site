@@ -28,47 +28,9 @@
     --rail: 232px;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --ground:      #0F151C;
-      --surface:     #171F28;
-      --surface-alt: #1E2833;
-      --ink:         #E9E7E1;
-      --muted:       #8D98A5;
-      --line:        #2A3542;
-      --accent:      #86ADD8;
-      --accent-soft: #1B2836;
-      --brass:       #C9A227;
-      --brass-soft:  #2A2416;
-
-      --live:        #5FB98A;
-      --live-soft:   #14251C;
-      --pending:     #D2A93F;
-      --pending-soft:#2A2314;
-      --blocked:     #E08471;
-      --blocked-soft:#2E1A16;
-    }
-  }
-
-  :root[data-theme="dark"] {
-    --ground:      #0F151C;
-    --surface:     #171F28;
-    --surface-alt: #1E2833;
-    --ink:         #E9E7E1;
-    --muted:       #8D98A5;
-    --line:        #2A3542;
-    --accent:      #86ADD8;
-    --accent-soft: #1B2836;
-    --brass:       #C9A227;
-    --brass-soft:  #2A2416;
-
-    --live:        #5FB98A;
-    --live-soft:   #14251C;
-    --pending:     #D2A93F;
-    --pending-soft:#2A2314;
-    --blocked:     #E08471;
-    --blocked-soft:#2E1A16;
-  }
+  /* This page is pinned to one light, warm-paper palette on purpose — it does
+     not follow system/browser dark mode. Legibility for the founder reading
+     this on any device matters more than matching OS theme. */
 
   * { box-sizing: border-box; }
 
