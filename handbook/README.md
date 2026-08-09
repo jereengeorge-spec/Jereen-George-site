@@ -29,6 +29,6 @@ on handoff. These markdown files are the source of truth behind it.
 
 ## Known drift
 
-- `docs/PROJECT_PLAN.md` §5 in the app repo still proposes a $79/$149 two-tier price that
-  was never shipped. The live model is one plan at $99/mo or $999/yr. That section should
-  be struck.
+None open. The $79/$149 two-tier draft in `docs/PROJECT_PLAN.md` §5 was resolved 2026-08 —
+see [`BUSINESS_MODEL.md`](BUSINESS_MODEL.md) §3 for the pricing decision and the full
+reasoning for why it was rejected, not just marked stale.

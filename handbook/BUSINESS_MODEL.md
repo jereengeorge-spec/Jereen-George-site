@@ -53,9 +53,35 @@ That is the fear the product sells against.
 Annual saves $189 (16.7% — the standard "2 months free" discount).
 There is also a **buy-in-full** path that skips the trial and charges the full price today.
 
-> ⚠️ **Known doc drift:** `docs/PROJECT_PLAN.md` §5 still proposes a two-tier
-> $79/$149 model. That was never shipped and was superseded in 2026-06. The code is
-> correct; PROJECT_PLAN §5 is stale and should be struck.
+> ✅ **Considered and rejected (2026-08):** a $79/mo "Family" + $149/mo "Concierge"
+> two-tier structure — the engagement's original draft pricing — was proposed again and
+> evaluated against the single-plan model above. **Decision: keep one plan, $99/mo or
+> $999/yr.** Do not resurface this without new information; the reasoning below is why it
+> was closed, not just noted as stale.
+>
+> 1. **Contradicts the affluent-market positioning.** $79 is a step *down* from $99, not
+>    up — working against the deliberate move toward a higher-income buyer (§2).
+> 2. **Reopens the price-comparison problem instead of closing it.** One price keeps the
+>    pitch on outcome. Two tiers invite "what do I get for $79 vs $149?", dragging the
+>    conversation back into feature-for-feature territory — exactly where a $228/yr
+>    competitor wins (§4).
+> 3. **Multiplies buyer decisions.** One plan means one decision: trial or don't. A second
+>    tier adds a second decision point at exactly the moment — an emotional, safety-driven
+>    purchase — where added friction costs the most conversions.
+> 4. **Breaks the annual-first CAC math.** A $79/mo entry tier caps viable CAC at roughly
+>    $27 — tighter than even the $99/mo default's $37 ceiling — while $999 collected
+>    upfront raises it to ~$487, the number that actually makes paid ads viable (§3). A
+>    cheaper entry tier moves in the wrong direction on the one lever that unlocks that
+>    channel.
+>
+> A tier *above* $99 (priority human response, coverage for 2 seniors) may be worth adding
+> once there's real usage data — the rejection is of a cheaper entry point, not of tiering
+> as a concept ever.
+>
+> This was also stale documentation drift: `docs/PROJECT_PLAN.md` §5 in the app repo
+> proposed the same $79/$149 structure as an unresolved draft. **Fixed 2026-08** — that
+> section now shows the confirmed $99/$999 pricing with the rejection reasoning preserved
+> in a collapsed note, and the open question in §8 is marked resolved.
 
 **Assumed COGS: ~$25/customer/month** (Anthropic API + the founder's share of human
 escalation time). Revisit once there are 20+ customers and real usage data.
