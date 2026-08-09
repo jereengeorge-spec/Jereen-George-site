@@ -4,6 +4,12 @@ The framework: Sabrina Ramonov's 30-day personal-brand system (*How I'd Start a 
 Business + Personal Brand with AI in 30 Days*), fused with the assets already in these repos —
 the TechButler SaaS, the 30-video Shorts scriptbook, and the local HyperFrames video pipeline.
 
+> **Read [`GROWTH_MODEL.md`](GROWTH_MODEL.md) first.** This playbook covers *how to make the
+> content*. That one covers *which channel reaches income replacement*, using Hormozi's Core
+> Four and money-model math. Short version: content is the durable asset but it is not the
+> fastest path — warm outreach and professional partnerships are, because the whole target is
+> roughly 150 customers, not a large audience.
+
 ## The system, distilled
 
 **Core law: 30 days builds the machine. The money comes after. Selling too early kills it.**
@@ -105,9 +111,15 @@ between ad copy and first card charge is how you get chargebacks and platform co
 ### Decisions only you can make
 - [ ] **Brand name** — NAMING.md rates "TechButler" high-risk (registered trademark, direct
       competitors). You accepted the risk in brand.ts; confirm before we build a channel on it.
-- [ ] **Mascot name** — George, Alfred, or the Butler. One name, then the locked reference image.
-- [ ] **Face or faceless** — determines platform and whether the scriptbook path (faceless
-      mascot) or the talking-head path (needs HeyGen/credits) is primary.
+- [x] **Mascot name** — **George.** Same name as the in-product AI companion, so the mascot
+      *is* the product. Rename "Alfred"/"the Butler" throughout the scriptbook before the
+      locked reference image is generated.
+- [x] **Face or faceless** — **Faceless.** Scriptbook path is primary; the talking-head /
+      HeyGen path is dropped. You appear as a name and a voice (bio, captions, comment
+      replies), never a face.
+- [x] **Which brand leads** — **George / TechButler, not a personal brand.** Faceless plus a
+      named mascot already decides this; see [`GROWTH_MODEL.md`](GROWTH_MODEL.md) §4 for why
+      it's also the better call (transferable asset, no bridge from audience to product).
 
 ### Tools (status as of 2026-07-31)
 - **Working now, $0:** HyperFrames render pipeline (`ai-clone/`), this repo's content log.
