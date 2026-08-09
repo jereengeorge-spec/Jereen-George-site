@@ -4,6 +4,11 @@ Companion to [`PLAYBOOK.md`](PLAYBOOK.md). That doc answers *how to make content
 This one answers *which channel actually gets to income replacement*, using Hormozi's
 frameworks applied to the real numbers.
 
+> Part of the [handbook](../handbook/README.md) — see
+> [`BUSINESS_MODEL.md`](../handbook/BUSINESS_MODEL.md) for the model this strategy serves,
+> [`OPERATIONS.md`](../handbook/OPERATIONS.md) for the rhythms that execute it, and
+> [`CRM.md`](../handbook/CRM.md) for where the pipeline gets tracked.
+
 **The goal, stated plainly:** replace your income with TechButler subscription revenue.
 Faceless AI brand as the promotion engine. Price stays at $99/mo — the audience is
 income-qualified rather than price-sensitive.

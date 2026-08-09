@@ -1,0 +1,958 @@
+<title>TechButler — Founder Console</title>
+
+<style>
+  /* ── Tokens: complete light palette on bare :root ───────────────────── */
+  :root {
+    --ground:      #F6F4EF;
+    --surface:     #FFFFFF;
+    --surface-alt: #EFECE4;
+    --ink:         #141C25;
+    --muted:       #5A6675;
+    --line:        #DDD8CE;
+    --accent:      #1E3A5F;
+    --accent-soft: #E3E9F1;
+    --brass:       #8A6A1F;
+    --brass-soft:  #F2EAD5;
+
+    --live:        #2E7D52;
+    --live-soft:   #DFEDE5;
+    --pending:     #8A6512;
+    --pending-soft:#F5EBD3;
+    --blocked:     #A93E2B;
+    --blocked-soft:#F6E2DD;
+
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans:  ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono:  ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+    --rail: 232px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0F151C;
+      --surface:     #171F28;
+      --surface-alt: #1E2833;
+      --ink:         #E9E7E1;
+      --muted:       #8D98A5;
+      --line:        #2A3542;
+      --accent:      #86ADD8;
+      --accent-soft: #1B2836;
+      --brass:       #C9A227;
+      --brass-soft:  #2A2416;
+
+      --live:        #5FB98A;
+      --live-soft:   #14251C;
+      --pending:     #D2A93F;
+      --pending-soft:#2A2314;
+      --blocked:     #E08471;
+      --blocked-soft:#2E1A16;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:      #0F151C;
+    --surface:     #171F28;
+    --surface-alt: #1E2833;
+    --ink:         #E9E7E1;
+    --muted:       #8D98A5;
+    --line:        #2A3542;
+    --accent:      #86ADD8;
+    --accent-soft: #1B2836;
+    --brass:       #C9A227;
+    --brass-soft:  #2A2416;
+
+    --live:        #5FB98A;
+    --live-soft:   #14251C;
+    --pending:     #D2A93F;
+    --pending-soft:#2A2314;
+    --blocked:     #E08471;
+    --blocked-soft:#2E1A16;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  code, .mono { font-family: var(--mono); font-size: 0.88em; }
+  code {
+    background: var(--surface-alt);
+    padding: 0.1em 0.36em;
+    border-radius: 3px;
+    word-break: break-word;
+  }
+
+  /* ── Shell ──────────────────────────────────────────────────────────── */
+  .shell {
+    display: grid;
+    grid-template-columns: var(--rail) minmax(0, 1fr);
+    gap: 48px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 40px 32px 96px;
+    align-items: start;
+  }
+
+  /* ── Rail ───────────────────────────────────────────────────────────── */
+  .rail { position: sticky; top: 40px; }
+
+  .mark {
+    font-family: var(--serif);
+    font-size: 19px;
+    line-height: 1.25;
+    margin: 0 0 4px;
+  }
+  .mark em { font-style: normal; color: var(--brass); }
+
+  .mark-sub {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 24px;
+  }
+
+  .rail nav { display: flex; flex-direction: column; gap: 1px; }
+
+  .rail nav a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 4px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13.5px;
+    border-left: 2px solid transparent;
+  }
+  .rail nav a:hover {
+    background: var(--surface);
+    color: var(--ink);
+    border-left-color: var(--brass);
+  }
+  .rail nav a .tally {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--blocked);
+  }
+
+  .rail-note {
+    margin-top: 24px;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .rail-note strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Main column ────────────────────────────────────────────────────── */
+  .main { display: flex; flex-direction: column; gap: 40px; min-width: 0; }
+
+  .lede {
+    font-family: var(--serif);
+    font-size: 30px;
+    line-height: 1.28;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    margin: 0 0 10px;
+  }
+  .lede-sub {
+    max-width: 62ch;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  section { scroll-margin-top: 24px; }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    margin: 0 0 4px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+    text-wrap: balance;
+  }
+  .sec-note {
+    color: var(--muted);
+    font-size: 13.5px;
+    margin: 0 0 18px;
+    max-width: 66ch;
+  }
+
+  h3 {
+    font-size: 12px;
+    font-family: var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+
+  p { max-width: 68ch; }
+  .main > section > p:last-child { margin-bottom: 0; }
+
+  /* ── Status chips ───────────────────────────────────────────────────── */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .chip::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .chip.live    { color: var(--live);    background: var(--live-soft); }
+  .chip.pending { color: var(--pending); background: var(--pending-soft); }
+  .chip.blocked { color: var(--blocked); background: var(--blocked-soft); }
+
+  /* ── State strip ────────────────────────────────────────────────────── */
+  .state {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .state-cell {
+    background: var(--surface);
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .state-cell .label {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .state-cell .detail { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+
+  /* ── Metric row ─────────────────────────────────────────────────────── */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .metric { background: var(--surface); padding: 16px; }
+  .metric .n {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 25px;
+    line-height: 1.1;
+    color: var(--accent);
+    display: block;
+  }
+  .metric .k {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 5px;
+    display: block;
+    line-height: 1.4;
+  }
+
+  /* ── Tables ─────────────────────────────────────────────────────────── */
+  .tw {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--surface);
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+  th, td {
+    text-align: left;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  thead th {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+    background: var(--surface-alt);
+    white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num, th.num {
+    text-align: right;
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  td.key { font-family: var(--mono); font-size: 12px; white-space: nowrap; }
+  tbody tr.hi td { background: var(--brass-soft); }
+
+  /* ── Cards ──────────────────────────────────────────────────────────── */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(258px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 18px;
+  }
+  .card h4 {
+    margin: 0 0 8px;
+    font-size: 14.5px;
+    font-weight: 600;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .card h4 .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--brass);
+  }
+  .card p  { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .card ol, .card ul { margin: 0; padding-left: 17px; font-size: 13.5px; color: var(--muted); }
+  .card li { margin-bottom: 5px; }
+  .card li:last-child { margin-bottom: 0; }
+  .card li strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Phase list (a real sequence — numbering is earned) ─────────────── */
+  .phases { display: flex; flex-direction: column; gap: 1px; background: var(--line);
+            border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .phase { background: var(--surface); padding: 14px 18px; display: grid;
+           grid-template-columns: 34px minmax(0,1fr); gap: 14px; align-items: start; }
+  .phase .idx {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--brass);
+    padding-top: 2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .phase .body h4 { margin: 0 0 3px; font-size: 14.5px; font-weight: 600;
+                    display: flex; gap: 9px; align-items: baseline; flex-wrap: wrap; }
+  .phase .body p  { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .phase .body .when {
+    font-family: var(--mono); font-size: 10.5px; color: var(--muted);
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+
+  /* ── Callout ────────────────────────────────────────────────────────── */
+  .callout {
+    border-left: 2px solid var(--brass);
+    background: var(--surface);
+    padding: 13px 17px;
+    border-radius: 0 6px 6px 0;
+    font-size: 13.5px;
+  }
+  .callout p { margin: 0; max-width: 70ch; }
+  .callout p + p { margin-top: 8px; }
+  .callout strong { color: var(--ink); }
+
+  /* ── Checklist ──────────────────────────────────────────────────────── */
+  .check { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+  .check li {
+    display: grid;
+    grid-template-columns: 15px minmax(0,1fr);
+    gap: 11px;
+    align-items: start;
+    font-size: 13.5px;
+  }
+  .check li::before {
+    content: "";
+    width: 13px; height: 13px;
+    margin-top: 4px;
+    border: 1.5px solid var(--muted);
+    border-radius: 3px;
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+  footer p { margin: 0 0 6px; max-width: 70ch; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 28px 20px 72px; }
+    .rail { position: static; }
+    .rail nav { flex-direction: row; overflow-x: auto; gap: 4px; padding-bottom: 4px; }
+    .rail nav a { border-left: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+    .rail nav a:hover { border-left-color: transparent; border-bottom-color: var(--brass); }
+    .rail nav a .tally { display: none; }
+    .rail-note { display: none; }
+    .lede { font-size: 25px; }
+  }
+</style>
+
+<div class="shell">
+
+  <aside class="rail">
+    <p class="mark">TechButler<br><em>Founder Console</em></p>
+    <p class="mark-sub">Operating handbook</p>
+    <nav aria-label="Sections">
+      <a href="#state">State of play <span class="tally">4</span></a>
+      <a href="#model">Business model</a>
+      <a href="#economics">Economics</a>
+      <a href="#channel">Channel plan</a>
+      <a href="#crm">CRM <span class="tally">1</span></a>
+      <a href="#rhythm">Rhythms</a>
+      <a href="#sop">Procedures</a>
+      <a href="#runbook">Runbooks</a>
+      <a href="#access">Access &amp; handoff</a>
+    </nav>
+    <p class="rail-note">
+      <strong>If you are taking this over:</strong> read State of play, then Access &amp; handoff.
+      Everything else can wait a day. Nothing here contains a credential.
+    </p>
+  </aside>
+
+  <main class="main">
+
+    <header>
+      <h1 class="lede">Everything needed to run this business from one page.</h1>
+      <p class="lede-sub">
+        TechButler is a subscription that becomes an aging parent's tech support, sold to
+        their adult child so that child stops being the family's unpaid IT department. This
+        console is the operating layer: what is live, what is blocked, how money is made,
+        and what to do each day. Verified against the codebase 9 August 2026.
+      </p>
+    </header>
+
+    <!-- ── STATE ──────────────────────────────────────────────────────── -->
+    <section id="state">
+      <h2>State of play</h2>
+      <p class="sec-note">
+        Four items are blocking revenue. Nothing else on this page matters until these clear.
+      </p>
+      <div class="state">
+        <div class="state-cell">
+          <span class="chip blocked">Unverified</span>
+          <span class="label">Stripe live mode</span>
+          <span class="detail">Cannot be confirmed from the repo — keys live in Vercel. Six values must switch together, not two. See <a href="#runbook">RUN-2</a>.</span>
+        </div>
+        <div class="state-cell">
+          <span class="chip blocked">Unresolved</span>
+          <span class="label">Brand name</span>
+          <span class="detail">"TechButler" is a registered trademark with active competitors in this niche. One-file swap via <code>brand.ts</code> — cost rises with every video published.</span>
+        </div>
+        <div class="state-cell">
+          <span class="chip blocked">Missing</span>
+          <span class="label">Acquisition pipeline</span>
+          <span class="detail">The CRM tracks delivery, not acquisition. No partner or pipeline tables exist. Migration written, not yet run.</span>
+        </div>
+        <div class="state-cell">
+          <span class="chip blocked">Not default</span>
+          <span class="label">Annual-first billing</span>
+          <span class="detail">Monthly-first caps viable CAC at $37, which closes paid ads entirely. Annual-first lifts it to ~$487.</span>
+        </div>
+        <div class="state-cell">
+          <span class="chip live">Shipped</span>
+          <span class="label">Product V1</span>
+          <span class="detail">AI assistant, human escalation, scam alerts, dashboards, Stripe trial flow, founder console.</span>
+        </div>
+        <div class="state-cell">
+          <span class="chip live">Ready</span>
+          <span class="label">Video pipeline</span>
+          <span class="detail">Local, $0, renders captioned 9:16 MP4s. 30 scripts written. Faceless + George locked.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── MODEL ──────────────────────────────────────────────────────── -->
+    <section id="model">
+      <h2>The business model</h2>
+      <p class="sec-note">
+        An AI companion named George handles day-to-day support; a human handles escalations.
+        The adult child owns the account, the senior is a managed profile.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <h4>The buyer <span class="tag">pays</span></h4>
+          <p>Adult child, <strong>35–65</strong>, household income <strong>$150k+</strong>,
+          living 30+ minutes from the parent. Distance is the qualifier — proximity is what
+          makes people say "I'll just drive over." Buys <strong>not getting the call</strong>.</p>
+        </div>
+        <div class="card">
+          <h4>The user <span class="tag">uses</span></h4>
+          <p>Their parent, 70+. Wants independence and someone patient who never makes them
+          feel stupid. Never sees a bill.</p>
+        </div>
+        <div class="card">
+          <h4>Untapped second buyer <span class="tag">open</span></h4>
+          <p>Affluent <strong>65–75-year-olds</strong> buying for a spouse or themselves.
+          Online, moneyed, embarrassed to keep asking their kids — and nobody is selling to
+          them. Same product, dignity script instead of relief script.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:14px">
+        <p><strong>The positioning rule that cannot be broken:</strong> never market this as
+        "unlimited tech support for seniors." Candoo sells exactly that, human-delivered, for
+        $228/yr against our $1,188/yr. On that framing we lose on price and lose again on
+        "a human beats an AI."</p>
+        <p>The premium rests on four things competitors structurally cannot do: 24/7 zero-wait
+        (they are appointment-based), the buyer's outcome rather than the user's, the family
+        dashboard, and proactive scam prevention — insurance framing carries insurance pricing.</p>
+      </div>
+    </section>
+
+    <!-- ── ECONOMICS ──────────────────────────────────────────────────── -->
+    <section id="economics">
+      <h2>Economics</h2>
+      <p class="sec-note">
+        Shipped price is one plan on two cycles. <code>PROJECT_PLAN.md</code> §5 still shows a
+        stale $79/$149 two-tier proposal that was never shipped — the code is authoritative.
+      </p>
+
+      <div class="metrics">
+        <div class="metric"><span class="n">$99</span><span class="k">per month</span></div>
+        <div class="metric"><span class="n">$999</span><span class="k">per year — saves $189</span></div>
+        <div class="metric"><span class="n">$74</span><span class="k">gross profit / customer / mo</span></div>
+        <div class="metric"><span class="n">~150</span><span class="k">customers = income replaced</span></div>
+        <div class="metric"><span class="n">3–4</span><span class="k">new customers / week needed</span></div>
+      </div>
+
+      <p style="margin:20px 0 10px"><strong>Customers required to replace income</strong>
+      — assuming ~$25/customer/month COGS (Anthropic API plus the founder's escalation time).</p>
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Target income</th><th class="num">Monthly GP needed</th><th class="num">On $99/mo</th><th class="num">On $999/yr</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>$60,000</td><td class="num">$5,000</td><td class="num">68</td><td class="num">86</td></tr>
+            <tr class="hi"><td>$100,000</td><td class="num">$8,333</td><td class="num">113</td><td class="num">143</td></tr>
+            <tr><td>$150,000</td><td class="num">$12,500</td><td class="num">169</td><td class="num">215</td></tr>
+            <tr><td>$200,000</td><td class="num">$16,667</td><td class="num">225</td><td class="num">286</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="margin:22px 0 10px"><strong>The money-model constraint.</strong>
+      Client-financed acquisition requires 30-day gross profit above 2× CAC. This single
+      table decides whether paid advertising is available at all.</p>
+      <div class="tw">
+        <table>
+          <thead>
+            <tr><th>Offer shape</th><th class="num">30-day cash</th><th class="num">Max viable CAC</th><th>Verdict</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Monthly-first <em>(current default)</em></td><td class="num">$99</td><td class="num">$37</td><td><span class="chip blocked">Ads impossible</span></td></tr>
+            <tr class="hi"><td>Annual-first ($999 upfront)</td><td class="num">$999</td><td class="num">~$487</td><td><span class="chip live">Ads viable</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:12px; color:var(--muted); font-size:13.5px">
+        Making annual the default rather than the alternative is the highest-leverage change
+        available, and it does not require touching the price — only when the money is collected.
+      </p>
+
+      <p style="margin:22px 0 10px"><strong>Where we sit in the market.</strong>
+      TechButler is 3.5×–12× every named competitor. Holding that price is deliberate.</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Service</th><th class="num">Price</th><th>Model</th></tr></thead>
+          <tbody>
+            <tr><td>HelloTech (remote only)</td><td class="num">$99/yr</td><td>Human, on demand</td></tr>
+            <tr><td>Best Buy Total</td><td class="num">$180/yr</td><td>Human + retail perks</td></tr>
+            <tr><td>Candoo Tech</td><td class="num">$228/yr</td><td>Human, senior specialist</td></tr>
+            <tr class="hi"><td><strong>TechButler</strong></td><td class="num">$1,188/yr</td><td>AI 24/7 + human escalation + family dashboard</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── CHANNEL ────────────────────────────────────────────────────── -->
+    <section id="channel">
+      <h2>Channel plan</h2>
+      <p class="sec-note">
+        Because the target is ~150 customers rather than an audience, the ranking is not the
+        usual one: relationships beat reach. Phases 1–3 run concurrently; phase 4 is gated
+        on phase 0 shipping.
+      </p>
+      <div class="phases">
+        <div class="phase">
+          <span class="idx">00</span>
+          <div class="body">
+            <h4>Money model <span class="when">now</span></h4>
+            <p>Annual-first as the default, a "cut the calls in half or refund" guarantee,
+            the billing-copy fix, and the scam-proof checklist lead magnet. Produces an offer
+            that advertising could survive.</p>
+          </div>
+        </div>
+        <div class="phase">
+          <span class="idx">01</span>
+          <div class="body">
+            <h4>Warm outreach <span class="when">weeks 1–2</span></h4>
+            <p>100 conversations. Free and highest-trust — nearly everyone you know aged
+            35–65 has aging parents. The goal is not revenue: it is 5–10 real users and the
+            testimonials every other channel depends on.</p>
+          </div>
+        </div>
+        <div class="phase">
+          <span class="idx">02</span>
+          <div class="body">
+            <h4>Referral partnerships <span class="when">weeks 2–8</span></h4>
+            <p>Elder-law attorneys, wealth managers, concierge medicine, geriatric care
+            managers, private-pay home care, senior communities, CPAs. Each sits on a room of
+            income-qualified buyers, lends their credibility, and has a live pain we fix.
+            The fastest route to 150 — and the phase with no CRM support today.</p>
+          </div>
+        </div>
+        <div class="phase">
+          <span class="idx">03</span>
+          <div class="body">
+            <h4>Faceless George content <span class="when">weeks 1–12, parallel</span></h4>
+            <p>The compounding asset. Takes 60–90 days to produce real inbound, so start
+            immediately and judge late. Because George is also the in-product AI, every video
+            doubles as a product demo — there is no bridge to cross from audience to offer.</p>
+          </div>
+        </div>
+        <div class="phase">
+          <span class="idx">04</span>
+          <div class="body">
+            <h4>Paid ads <span class="when">month 3+</span></h4>
+            <p>The best-performing organic videos with a CTA attached, targeted by income
+            proxy. Opens only if phase 0 shipped; without annual-first the CAC ceiling of $37
+            keeps this closed permanently.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout" style="margin-top:14px">
+        <p><strong>Daily dose, phases 1–3:</strong> 100 outreach touches <em>or</em> 100
+        minutes of content, every weekday. Nothing else on this page matters if that does
+        not happen.</p>
+      </div>
+    </section>
+
+    <!-- ── CRM ────────────────────────────────────────────────────────── -->
+    <section id="crm">
+      <h2>The CRM</h2>
+      <p class="sec-note">
+        There is no external CRM — no HubSpot, Salesforce, Pipedrive, Airtable, or Notion
+        anywhere in the codebase. What exists is a home-built founder console at
+        <code>/founder</code> backed directly by Supabase Postgres. Good for this size: no
+        seat cost, no sync, no export lock-in. The cost is that it only does what someone wrote.
+      </p>
+
+      <h3>Tables</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Table</th><th>Holds</th><th>Notable</th></tr></thead>
+          <tbody>
+            <tr><td class="key">profiles</td><td>Account owners (adult children)</td><td>Carries subscription status, plan, Stripe customer ID, deposit status</td></tr>
+            <tr><td class="key">seniors</td><td>Managed senior profiles</td><td>Optional lite login for the senior's own view</td></tr>
+            <tr><td class="key">support_requests</td><td>Every help interaction</td><td>AI / human escalation / phone; stores the transcript</td></tr>
+            <tr><td class="key">ticket_notes</td><td>Founder-only notes on a ticket</td><td><strong>RLS on, no policies</strong> — service role only. Separate table because customers can read every column of their own request row</td></tr>
+            <tr><td class="key">scam_alerts</td><td>Live scam events</td><td>Emails the owner, not the founder. Own table so "any open alerts?" stays cheap</td></tr>
+            <tr><td class="key">leads</td><td>Public "I'm stuck" submissions</td><td>Service role only</td></tr>
+            <tr><td class="key">feedback</td><td>Product feedback, text or audio</td><td>Audio in Supabase Storage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:22px">Console panels</h3>
+      <div class="cards">
+        <div class="card">
+          <h4>/founder</h4>
+          <p>MRR, active / trialing / canceled, conversion rate, six-month signup and MRR
+          trend, open escalations, average resolution hours, oldest open ticket, seniors,
+          leads, feedback, and quick links into Supabase, Stripe and Vercel.</p>
+        </div>
+        <div class="card">
+          <h4>/founder/tickets</h4>
+          <p>The work queue plus a detail view. Two actions: set status open or resolved
+          (stamping the resolution time), and add a founder-private note.</p>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top:16px">
+        <p><strong>The gap that matters: the CRM tracks delivery, not acquisition.</strong>
+        Every table above describes someone who already signed up, plus one inbound form.
+        But the business runs on warm outreach and referral partnerships producing 3–4
+        customers a week, and there is nowhere to record any of it.</p>
+        <p>The <code>leads</code> table is name, email, phone, problem, timestamp — and
+        nothing else. No status. No source, so a form fill and an attorney's referral look
+        identical. No next action, so nothing surfaces "you said you'd follow up Tuesday."
+        No partner concept at all. No outreach log, so the Rule of 100 cannot be counted.
+        <strong>This is the top-priority CRM build</strong> — a written, additive migration
+        adding <code>partners</code>, <code>lead_notes</code>, <code>touches</code> and
+        pipeline fields is ready to run in <code>handbook/CRM.md</code>.</p>
+      </div>
+    </section>
+
+    <!-- ── RHYTHM ─────────────────────────────────────────────────────── -->
+    <section id="rhythm">
+      <h2>Operating rhythms</h2>
+      <p class="sec-note">The week runs on three loops. The daily one is roughly 90 minutes.</p>
+      <div class="cards">
+        <div class="card">
+          <h4>Daily <span class="tag">~90 min</span></h4>
+          <ul>
+            <li><strong>Escalation sweep</strong>, morning and evening — nothing comes first, response time <em>is</em> the product</li>
+            <li><strong>Scam alerts</strong> on notification, urgent at any hour</li>
+            <li><strong>Rule of 100</strong> — 100 touches or 100 minutes of content</li>
+            <li><strong>Pipeline due list</strong> — anything past its next-action date</li>
+            <li><strong>Comment replies</strong> within 2 hours of posting</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Weekly <span class="tag">~60 min</span></h4>
+          <ul>
+            <li>Record the seven metrics — same day, same time, always</li>
+            <li>Pipeline review: every lead gets a next action or a lost reason</li>
+            <li>Partner review: every active partner gets a touch</li>
+            <li>Batch next week's videos in one sitting</li>
+            <li><strong>Export Supabase</strong> — this is the entire disaster-recovery plan</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Monthly <span class="tag">~2 hrs</span></h4>
+          <ul>
+            <li>Cohort check — trial-to-paid conversion, churn by signup month</li>
+            <li><strong>Channel attribution</strong> — MRR by lead source; the decision the whole plan waits on</li>
+            <li>COGS reality check against the $25 assumption</li>
+            <li>Stripe reconciliation — failed deposits, involuntary churn, disputes</li>
+            <li>Update this handbook the same day anything changes</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="margin-top:22px">The seven tracked metrics</h3>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Metric</th><th>Source</th><th>Why it is on the list</th></tr></thead>
+          <tbody>
+            <tr><td>Conversations had</td><td class="key">touches</td><td>Rule of 100 compliance</td></tr>
+            <tr><td>Partners signed</td><td class="key">partners</td><td>Leading indicator of the fastest channel</td></tr>
+            <tr><td>Videos posted</td><td>Content log</td><td>Output beats perfection — 25 in 32 days beats 11 in 100</td></tr>
+            <tr><td>Leads captured</td><td class="key">leads</td><td>Top of funnel</td></tr>
+            <tr><td>Trials started</td><td class="key">profiles</td><td>The offer is working</td></tr>
+            <tr class="hi"><td><strong>Paying customers</strong></td><td class="key">profiles</td><td><strong>The only number that is real</strong></td></tr>
+            <tr class="hi"><td><strong>Churn</strong></td><td>Derived</td><td>The one that quietly kills it</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── SOPs ───────────────────────────────────────────────────────── -->
+    <section id="sop">
+      <h2>Standard procedures</h2>
+      <p class="sec-note">The five things that happen over and over. Each has one correct sequence.</p>
+      <div class="cards">
+        <div class="card">
+          <h4>Human escalation <span class="tag">SOP-1</span></h4>
+          <ol>
+            <li>Alert arrives by email via Resend</li>
+            <li><strong>Read the AI transcript first</strong> — the customer already explained it once and must never repeat it</li>
+            <li>Contact them directly. Target: <strong>under 2 hours</strong> in waking hours</li>
+            <li>Log it as a founder-private ticket note</li>
+            <li>Mark resolved — this feeds the resolution-time metric</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h4>Scam alert <span class="tag">SOP-2</span></h4>
+          <ol>
+            <li>Fires from George detecting a pattern, or the senior pressing their own SOS button</li>
+            <li>System emails <strong>the adult child</strong>, not the founder, and banners their dashboard</li>
+            <li>Confirm the owner responded; if nothing within an hour, contact them yourself</li>
+            <li>Mark handled</li>
+          </ol>
+          <p style="margin-top:8px">The single most brand-defining moment in the product — it is what the subscription is really bought for.</p>
+        </div>
+        <div class="card">
+          <h4>New customer <span class="tag">SOP-3</span></h4>
+          <ol>
+            <li>Checkout opens at signup. <strong>No access until the webhook confirms</strong> — an abandoned checkout must never yield free access</li>
+            <li>Webhook sets trialing, charges the $25 deposit, attaches the day-8 coupon</li>
+            <li>Confirm deposit status is paid; if failed, see RUN-4</li>
+            <li>Personal welcome within 24 hours — the cheapest retention there is</li>
+            <li><strong>Confirm they added a senior.</strong> An owner with zero seniors will churn</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h4>Working a partner <span class="tag">SOP-4</span></h4>
+          <ol>
+            <li>Add to partners with a category and a next-action date</li>
+            <li>Lead with <strong>their</strong> problem: clients keep asking them for tech help they don't want to give</li>
+            <li>Give first — hand them the scam-proof checklist to pass on under their own name</li>
+            <li>Log every contact</li>
+            <li>On activation, agree how referrals arrive and tag them, or attribution is lost</li>
+          </ol>
+        </div>
+        <div class="card">
+          <h4>Producing a video <span class="tag">SOP-5</span></h4>
+          <ol>
+            <li>Take the next scriptbook entry</li>
+            <li>Run it through the local pipeline and check the render</li>
+            <li>Post, then reply to comments for two hours</li>
+            <li>Log the numbers</li>
+          </ol>
+          <p style="margin-top:8px"><strong>Locked:</strong> faceless · mascot is George, the same name as the in-product AI · the founder appears as a name and a voice, never a face.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── RUNBOOKS ───────────────────────────────────────────────────── -->
+    <section id="runbook">
+      <h2>Runbooks</h2>
+      <p class="sec-note">For when something breaks, or is about to.</p>
+
+      <h3>RUN-2 · Stripe test → live</h3>
+      <p style="margin:0 0 10px">Six values must change together. Swapping only the two keys
+      is the standard failure — products, prices, coupons and webhook endpoints are separate
+      objects in test and live, and <strong>none of those IDs carry over</strong>.</p>
+      <div class="tw">
+        <table>
+          <thead><tr><th>Variable</th><th>Live value</th></tr></thead>
+          <tbody>
+            <tr><td class="key">STRIPE_SECRET_KEY</td><td class="key">sk_live_…</td></tr>
+            <tr><td class="key">NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</td><td class="key">pk_live_…</td></tr>
+            <tr><td class="key">STRIPE_PRICE_MAIN</td><td>new live-mode price ID ($99/mo)</td></tr>
+            <tr><td class="key">STRIPE_PRICE_ANNUAL</td><td>new live-mode price ID ($999/yr)</td></tr>
+            <tr><td class="key">STRIPE_COUPON_FIRST_MONTH</td><td>new live-mode coupon ID ($25 off, once)</td></tr>
+            <tr><td class="key">STRIPE_WEBHOOK_SECRET</td><td class="key">whsec_… from a new live endpoint</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout" style="margin-top:14px">
+        <p><strong>Verify in 60 seconds:</strong> start a signup on the live site and look at
+        Stripe Checkout. Test mode paints an orange TEST MODE banner. No banner means live —
+        and unlike reading dashboard settings, this proves the <em>deployed app</em> is live.
+        Separately confirm the Stripe account itself is activated with business details and a
+        bank account; without activation, live keys do not exist at all.</p>
+        <p><strong>Three silent failure modes,</strong> all verified in the code. A missing
+        secret key falls back to a placeholder and the checkout button simply does nothing —
+        no crash. A missing live annual price makes the annual option <em>vanish from the UI</em>
+        and every checkout fall back to monthly, with no error. And a stale test-mode coupon ID
+        fails inside a non-fatal catch, so the customer is charged <strong>$99 on day 8 instead
+        of $74</strong> — a silent overcharge visible only in server logs.</p>
+      </div>
+
+      <div class="cards" style="margin-top:18px">
+        <div class="card">
+          <h4>Webhook not firing <span class="tag">RUN-3</span></h4>
+          <p>Symptoms: signups stuck without a subscription status, no deposits, no coupons.
+          Check the live-mode endpoint exists, that all four events are subscribed, and that
+          recent deliveries return 200. Signature failures mean the webhook secret does not
+          match that endpoint. Stripe retries, so fixing the secret recovers pending events.</p>
+        </div>
+        <div class="card">
+          <h4>Deposit failed <span class="tag">RUN-4</span></h4>
+          <p>Usually a card requiring 3D Secure, which cannot complete off-session. The billing
+          page prompts the customer to update their payment method. Deposits are idempotency-keyed
+          on the subscription ID, so a webhook retry returns the original charge and never
+          double-bills.</p>
+        </div>
+        <div class="card">
+          <h4>Data loss <span class="tag">RUN-5</span></h4>
+          <p>Supabase holds the only copy of every customer record. The weekly export <em>is</em>
+          the disaster-recovery plan. Restore means: new project, run the schema, run the
+          migrations, import the CSVs. Store exports somewhere that is not Supabase.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ACCESS ─────────────────────────────────────────────────────── -->
+    <section id="access">
+      <h2>Access &amp; handoff</h2>
+      <p class="sec-note">
+        An inventory of which accounts exist and who must hold them. No credential value
+        appears here or in any repository — those belong in a password manager.
+      </p>
+
+      <div class="tw">
+        <table>
+          <thead><tr><th>System</th><th>Purpose</th><th>Where its config lives</th></tr></thead>
+          <tbody>
+            <tr><td>Vercel</td><td>Hosting and all production environment variables</td><td>Project → Settings → Environment Variables</td></tr>
+            <tr><td>Supabase</td><td>Auth, Postgres, Storage — <strong>the only copy of customer data</strong></td><td>Supabase dashboard</td></tr>
+            <tr><td>Stripe</td><td>Payments, subscriptions, webhook</td><td>Stripe dashboard, live mode</td></tr>
+            <tr><td>Anthropic</td><td>Powers George</td><td>console.anthropic.com</td></tr>
+            <tr><td>Resend</td><td>Founder alert emails</td><td>resend.com</td></tr>
+            <tr><td>Registrar</td><td>Domain DNS</td><td>Registrar</td></tr>
+            <tr><td>GitHub</td><td>App repo and brand repo</td><td>GitHub</td></tr>
+            <tr><td>Social accounts</td><td>Distribution</td><td>Per platform</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout" style="margin-top:16px">
+        <p><strong>Founder access is a single environment variable.</strong>
+        <code>FOUNDER_EMAILS</code> is the entire permission model for the console. Add an
+        email and redeploy to grant; remove and redeploy to revoke.</p>
+        <p><strong>There are no roles and no audit log.</strong> Anyone on that list sees all
+        revenue, every customer, every support transcript, and every senior's details. Grant
+        it deliberately.</p>
+      </div>
+
+      <h3 style="margin-top:22px">Handoff checklist</h3>
+      <ul class="check">
+        <li>Add the successor to <code>FOUNDER_EMAILS</code>, redeploy, confirm the console loads</li>
+        <li>Transfer or share Vercel, Supabase, Stripe, Anthropic, Resend, registrar and GitHub</li>
+        <li>Move every credential into a shared password-manager vault</li>
+        <li>Walk SOP-1 and SOP-2 together on a real ticket — response time is the product</li>
+        <li>Hand over this console and confirm they can reach it</li>
+        <li>Provide a fresh Supabase export</li>
+        <li>Confirm they can run the video pipeline end to end</li>
+        <li><strong>Introduce them to every active partner personally</strong> — partnerships are relationships and do not transfer through a database row</li>
+        <li>Remove the departing person from <code>FOUNDER_EMAILS</code>, redeploy, and rotate every shared secret</li>
+      </ul>
+    </section>
+
+    <footer>
+      <p><strong>Source documents.</strong> This console summarises four markdown files kept
+      in the brand repository: <code>handbook/BUSINESS_MODEL.md</code> (the model and unit
+      economics), <code>handbook/OPERATIONS.md</code> (rhythms, procedures, runbooks, access),
+      <code>handbook/CRM.md</code> (the CRM map and the pipeline migration), and
+      <code>marketing/GROWTH_MODEL.md</code> (channel strategy and the research behind it).
+      Those files carry the full detail and the citations.</p>
+      <p>When anything changes, change the markdown first and republish this page — a console
+      that has drifted from reality is worse than no console.</p>
+    </footer>
+
+  </main>
+</div>
